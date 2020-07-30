@@ -37,38 +37,28 @@
 
 ``` 目录
 .
+├── logs
+│   ├── log_druid.log
+│   ├── logs.2020-07-17-0.log
+│   ├── logs.log
+│   ├── logs_error.log
+│   └── logs_warn.log
 ├── pom.xml
-├── settings-springboot-demo.xml
 └── src
     ├── main
     │   ├── java
     │   │   └── com
-    │   │       └── sprb
-    │   │           ├── SprbDemoApplication.java
-    │   │           ├── config
-    │   │           ├── controller
-    │   │           ├── demo
-    │   │           ├── domain
-    │   │           ├── repository
-    │   │           └── service
+    │   │       └── hawthorn
+    │   │           ├── HawthornApplication.java
+    │   │           └── admin
     │   └── resources
-    │       ├── META-INF
-    │       ├── application.properties.bak
     │       ├── application.yml
+    │       ├── banner.txt
     │       ├── logback-spring.xml
-    │       ├── rebel.xml
-    │       ├── static
-    │       └── templates
-    │           └── countryIndex.html
+    │       └── rebel.xml
     └── test
-        └── java
-            └── com
-                └── sprb
-                    ├── controller
-                    ├── demo
-                    └── repository
 
-22 directories, 8 files
+9 directories, 11 files
 
 ```
 
