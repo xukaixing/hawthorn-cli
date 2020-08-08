@@ -1,4 +1,4 @@
-package com.hawthorn.admin.config;
+package com.hawthorn.framework.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

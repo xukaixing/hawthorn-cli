@@ -1,4 +1,4 @@
-package com.hawthorn.admin.util.ret;
+package com.hawthorn.framework.ret;
 
 public enum RetCode
 {

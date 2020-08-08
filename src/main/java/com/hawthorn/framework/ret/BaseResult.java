@@ -1,4 +1,4 @@
-package com.hawthorn.admin.util.ret;
+package com.hawthorn.framework.ret;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

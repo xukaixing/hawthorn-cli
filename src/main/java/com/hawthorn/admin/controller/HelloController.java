@@ -1,12 +1,15 @@
 package com.hawthorn.admin.controller;
 
 import com.hawthorn.admin.model.SysUser;
-import com.hawthorn.admin.util.ret.BaseResult;
-import com.hawthorn.admin.util.ret.ResultUtil;
+import com.hawthorn.admin.service.Hello;
+import com.hawthorn.framework.annotation.ExecTime;
+import com.hawthorn.framework.ret.BaseResult;
+import com.hawthorn.framework.ret.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,10 +22,19 @@ import org.springframework.web.bind.annotation.RestController;
  * @date:2020/7/14 12:38 下午
  */
 
-@Api(tags = {"接口swagger api"})
+@Api(tags = {"Hello服务swagger api"})
 @RestController
+@ExecTime
 public class HelloController
 {
+  private final Hello hello;
+
+  @Autowired
+  public HelloController(Hello hello)
+  {
+    this.hello = hello;
+  }
+
   @ApiOperation(value = "获取hello信息", notes = "【notes】:该方法为测试controller")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "username", value = "用户名", dataType = "string", paramType = "query", defaultValue = "andyten", required = false),
@@ -50,6 +62,10 @@ public class HelloController
   public BaseResult<String> sayHello(String username, String name)
   {
     String s = "Hello Hawthorn By " + username;
+    //s = "a";
+    //System.out.println("ss" + s.substring(111));
+    // 测试异常
+    hello.sayHello();
     return ResultUtil.success(s);
   }
 }

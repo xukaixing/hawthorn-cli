@@ -18,7 +18,13 @@
     <!-- 设置源码和输出文件的编码规则 -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <!-- 版本清单 -->
     <java.version>1.8</java.version>
+    <swagger2.version>2.9.2</swagger2.version>
+    <swagger.ui.version>2.9.2</swagger.ui.version>
+    <swagger.bootstrap.ui.version>1.9.2</swagger.bootstrap.ui.version>
+    <lombok.version>1.18.12</lombok.version>
+    <hutool.version>5.3.9</hutool.version>
   </properties>
 
   <dependencies>
@@ -32,34 +38,47 @@
       <artifactId>spring-boot-starter</artifactId>
     </dependency>
 
+    <!-- 支持 @ConfigurationProperties 注解，application.yml自定义属性 -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <!-- junit test -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
 
+    <!-- spring aop -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-aop</artifactId>
+    </dependency>
+
     <!-- swagger2 -->
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger2</artifactId>
-      <version>2.9.2</version>
+      <version>${swagger2.version}</version>
     </dependency>
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger-ui</artifactId>
-      <version>2.9.2</version>
+      <version>${swagger.ui.version}</version>
     </dependency>
     <dependency>
       <groupId>com.github.xiaoymin</groupId>
       <artifactId>swagger-bootstrap-ui</artifactId>
-      <version>1.9.2</version>
+      <version>${swagger.bootstrap.ui.version}</version>
     </dependency>
 
     <!-- 配置lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.12</version>
+      <version>${lombok.version}</version>
       <scope>provided</scope>
     </dependency>
 
@@ -67,16 +86,81 @@
     <dependency>
       <groupId>cn.hutool</groupId>
       <artifactId>hutool-all</artifactId>
-      <version>5.3.9</version>
+      <version>${hutool.version}</version>
+    </dependency>
+
+    <!--mysql 驱动-->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- jpa 规范-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+
+    <!--配置druid数据库连接池 spring boot 2.x 集成durid需要将durid升级到1.1.10。-->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>druid-spring-boot-starter</artifactId>
+      <version>1.1.10</version>
     </dependency>
 
   </dependencies>
 
   <build>
+    <!-- 配置将哪些资源文件(静态文件/模板文件/mapper文件)加载到tomcat输出目录里 -->
+    <resources>
+      <resource>
+        <directory>src/main/java</directory><!--java文件的路径-->
+        <includes>
+          <include>**/*.*</include>
+        </includes>
+        <!-- <filtering>false</filtering>-->
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory><!--资源文件的路径-->
+        <includes>
+          <include>**/*.*</include>
+        </includes>
+        <!-- <filtering>false</filtering>-->
+      </resource>
+    </resources>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>8</source>
+          <target>8</target>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <!-- 工程主入口-->
+          <mainClass>com.hawthorn.HawthornApplication</mainClass>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- mvn test：忽略对测试用例的调用 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.20.1</version>
+        <configuration>
+          <skipTests>true</skipTests>
+        </configuration>
       </plugin>
     </plugins>
   </build>

@@ -4,6 +4,14 @@
   作者:andy.ten@tom.com 
   
 ## 版本
+> v1.0.1 : 2020.08.08 
+>> 日志增加exectime配置  
+>> 调整目录结构，增加framework包  
+>> 增加aop切面功能  
+>> 增加aop的执行时间插件
+
+---
+
 > v1.0.1 : 2020.07.14 
 >> 配置日志格式配置：logback-spring.xml    
 >> 增加了全局异常捕获处理  
@@ -25,6 +33,8 @@
   - `Slf4j+logback-spring`：日志插件
   - `Lombok`：生成Setter、Getter插件
   - `HuTool`: java工具包
+  - `configuration-processor`: 自定义属性配置插件
+  - `exectime`: 增加aop的执行时间插件
   
 ## 运行
 
@@ -37,12 +47,6 @@
 
 ``` 目录
 .
-├── logs
-│   ├── log_druid.log
-│   ├── logs.2020-07-17-0.log
-│   ├── logs.log
-│   ├── logs_error.log
-│   └── logs_warn.log
 ├── pom.xml
 └── src
     ├── main
@@ -50,15 +54,51 @@
     │   │   └── com
     │   │       └── hawthorn
     │   │           ├── HawthornApplication.java
-    │   │           └── admin
+    │   │           ├── admin
+    │   │           │   ├── controller
+    │   │           │   │   └── HelloController.java
+    │   │           │   ├── model
+    │   │           │   │   ├── BaseModel.java
+    │   │           │   │   └── SysUser.java
+    │   │           │   └── service
+    │   │           │       ├── Hello.java
+    │   │           │       └── HelloImpl.java
+    │   │           └── framework
+    │   │               ├── annotation
+    │   │               │   ├── ExecTime.java
+    │   │               │   └── MarkLog.java
+    │   │               ├── aspect
+    │   │               │   ├── ExecTimeAspect.java
+    │   │               │   └── MarkLogAspect.java
+    │   │               ├── config
+    │   │               │   ├── ApiError.java
+    │   │               │   └── SwaggerConfig.java
+    │   │               ├── exception
+    │   │               │   ├── BizCode.java
+    │   │               │   ├── BizException.java
+    │   │               │   └── GlobalExceptionHandler.java
+    │   │               ├── ret
+    │   │               │   ├── BaseResult.java
+    │   │               │   ├── ResultUtil.java
+    │   │               │   └── RetCode.java
+    │   │               └── util
+    │   │                   ├── MyPropsConfig.java
+    │   │                   └── http
     │   └── resources
+    │       ├── META-INF
     │       ├── application.yml
     │       ├── banner.txt
     │       ├── logback-spring.xml
     │       └── rebel.xml
     └── test
+        └── java
+            └── com
+                └── hawthorn
+                    └── admin
+                        └── controller
+                            └── HelloControllerTest.java
 
-9 directories, 11 files
+25 directories, 25 files
 
 ```
 

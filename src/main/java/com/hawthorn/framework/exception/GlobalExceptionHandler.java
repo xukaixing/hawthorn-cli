@@ -1,7 +1,8 @@
-package com.hawthorn.admin.util.exception;
+package com.hawthorn.framework.exception;
 
-import com.hawthorn.admin.util.ret.BaseResult;
-import com.hawthorn.admin.util.ret.ResultUtil;
+
+import com.hawthorn.framework.ret.BaseResult;
+import com.hawthorn.framework.ret.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 // 拦截全局的Controller的异常，注意：ControllerAdvice注解只拦截Controller不会拦截Interceptor的异常
 // 只能处理 Controller 层未捕获（往外抛）的异常，对于 Interceptor（拦截器）层的异常，Spring 框架层的异常，就无能为力了。
 // 注意完善ExceptionHandle类
+// @ControllerAdvice也是AOP自定义注解
+//@ControllerAdvice(annotations = {Controller.class, RestController.class})
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler<T>
@@ -75,9 +78,12 @@ public class GlobalExceptionHandler<T>
   @ExceptionHandler(value = Exception.class)
   public BaseResult<T> errorHandler(Exception ex)
   {
+    //获取request
+    //ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+    //HttpServletRequest request = requestAttributes.getRequest();
     log.error("未知错误异常: " + ex.getMessage(), ex);
     return ResultUtil.fail("未知错误异常: " + ex.getMessage());
-
     //return ResultUtil.fail(BizCode.ERROR_CREATE_DICT);
   }
+
 }

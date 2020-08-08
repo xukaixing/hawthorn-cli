@@ -1,4 +1,4 @@
-package com.hawthorn.admin.util.exception;
+package com.hawthorn.framework.exception;
 
 public enum BizCode
 {

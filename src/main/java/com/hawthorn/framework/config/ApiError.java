@@ -1,4 +1,4 @@
-package com.hawthorn.admin.config;
+package com.hawthorn.framework.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

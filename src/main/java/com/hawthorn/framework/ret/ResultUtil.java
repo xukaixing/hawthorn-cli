@@ -1,6 +1,6 @@
-package com.hawthorn.admin.util.ret;
+package com.hawthorn.framework.ret;
 
-import com.hawthorn.admin.util.exception.BizCode;
+import com.hawthorn.framework.exception.BizCode;
 
 /**
  * @version v1.0.1
@@ -21,7 +21,7 @@ public class ResultUtil
 
   public static <T> BaseResult<T> success(T data)
   {
-    return new BaseResult<T>().setCode(RetCode.SUCCESS).setMsg(SUCCESS).setData(data).setStatus(SUCCESS);
+    return new com.hawthorn.framework.ret.BaseResult<T>().setCode(RetCode.SUCCESS).setMsg(SUCCESS).setData(data).setStatus(SUCCESS);
   }
 
   public static <T> BaseResult<T> success(int code, String msg)
