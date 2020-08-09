@@ -8,11 +8,10 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 /**
- * @version v1.0.1
- * @className:MarkLogAspect
- * @descripion: MarkLog注解的切面类
- * @author:andy.ten@tom.com
- * @date:2020/8/8 2:22 下午
+ * @author: andy.ten@tom.com
+ * @date: 2020/8/9 10:20 上午
+ * @version: 1.0.1
+ * @remark MarkLog注解的切面类
  */
 @Aspect
 @Component

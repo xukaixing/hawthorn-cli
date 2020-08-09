@@ -1,5 +1,6 @@
 package com.hawthorn.framework.aspect;
 
+import com.hawthorn.framework.util.http.HttpContextUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -8,12 +9,16 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
+import static java.util.Map.Entry;
+
 /**
- * @version v1.0.1
- * @className:MarkLogAspect
- * @descripion: ExecTime注解的切面类
- * @author:andy.ten@tom.com
- * @date:2020/8/8 2:22 下午
+ * @author: andy.ten@tom.com
+ * @date: 2020/8/9 10:20 上午
+ * @version: 1.0.1
+ * @remark ExecTime注解的切面类
  */
 @Aspect
 @Component
@@ -52,6 +57,33 @@ public class ExecTimeAspect<T>
   @Around("execTimePointcut()")
   public Object handleExecTimeLog(ProceedingJoinPoint joinPoint)
   {
+    HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
+    String url = "";
+    String method = "";
+    String remoteIp = "";
+    StringBuilder args = new StringBuilder();
+    url = request.getRequestURI();
+    method = request.getMethod(); //返回的是Get/Post/Put等
+    remoteIp = request.getRemoteAddr();
+    //args = Arrays.toString(joinPoint.getArgs());
+    Map<String, String[]> args1 = request.getParameterMap();
+    //遍历请求的参数
+    for (Entry<String, String[]> element : args1.entrySet())
+    {
+      //key值
+      Object strKey = element.getKey();
+      //value,数组形式
+      String[] value = element.getValue();
+      for (String s : value)
+      {
+        if (args.length() > 0)
+          args.append("&").append(strKey).append("=").append(s);
+        else
+          args.append("?").append(strKey).append("=").append(s);
+      }
+    }
+    String targetClass = joinPoint.getTarget().getClass().toString();
+    String targetMethod = joinPoint.getSignature().getName();
     log.info("====== 开始执行 {}.{} ======",
         joinPoint.getTarget().getClass(),
         joinPoint.getSignature().getName());
@@ -65,21 +97,20 @@ public class ExecTimeAspect<T>
       result = joinPoint.proceed();
     } catch (Throwable t)
     {
-      log.error("====== 执行结束 发生异常 {} ======", t.getMessage());
+      log.error("====== 执行结束 发生异常 {} {}.{} {}->{}{} ======", t.getMessage(), targetClass, targetMethod, method, url, args);
       // 抛出RuntimeException异常，给GlobalExceptionHandle
       throw new RuntimeException(t.getMessage());
     }
-
 
     // 记录结束时间
     long end = System.currentTimeMillis();
     long takeTime = end - begin;
     if (takeTime > errtime)
     {
-      log.error("====== 执行结束 错误 超过{}秒！ 耗时：{} 毫秒 {}.{} ======", errtime / 1000, takeTime, joinPoint.getTarget().getClass(), joinPoint.getSignature().getName());
+      log.error("====== 执行结束 错误 超过{}秒！ 耗时：{} 毫秒 {}.{} {}->{}{} ======", errtime / 1000, takeTime, targetClass, targetMethod, method, url, args);
     } else if (takeTime > warntime)
     {
-      log.warn("====== 执行结束 警告 超过{}秒！ 耗时：{} 毫秒 {}.{} ======", warntime / 1000, takeTime, joinPoint.getTarget().getClass(), joinPoint.getSignature().getName());
+      log.warn("====== 执行结束 警告 超过{}秒！ 耗时：{} 毫秒 {}.{} {}->{}{} ======", warntime / 1000, takeTime, targetClass, targetMethod, method, url, args);
     } else
     {
       log.info("====== 执行结束 耗时：{} 毫秒 ======", takeTime);

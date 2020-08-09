@@ -73,4 +73,15 @@ public class BaseResult<T>
     this.data = data;
     return this;
   }
+
+  @Override
+  public String toString()
+  {
+    return "Result->{" +
+        "code=" + code +
+        ", status=" + status +
+        ", msg='" + msg + '\'' +
+        ", data=" + data +
+        '}';
+  }
 }

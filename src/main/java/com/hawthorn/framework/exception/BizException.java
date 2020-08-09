@@ -4,11 +4,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * @version v1.0.1
- * @className:BusinessException
- * @descripion: 业务异常类
- * @author:andy.ten@tom.com
- * @date:2020/7/15 7:40 下午
+ * @author: andy.ten@tom.com
+ * @date: 2020/8/9 10:18 上午
+ * @version: 1.0.1
+ * @remark: 业务异常类
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

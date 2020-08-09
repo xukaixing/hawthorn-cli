@@ -19,11 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @version v1.0.1
- * @className:SwaggerConfig
- * @descripion: swagger配置类
- * @author:andy.ten@tom.com
- * @date:2020/7/14 1:37 下午
+ * @author: andy.ten@tom.com
+ * @date: 2020/8/9 10:20 上午
+ * @version: 1.0.1
+ * @remark swagger配置类
  */
 @Configuration
 // 启动swagger
