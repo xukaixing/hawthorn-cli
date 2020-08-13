@@ -1,0 +1,37 @@
+# =====================================
+# @Desc: springboot工程配置文件，使用yml方式
+# @Auther: andy.ten@tom.com
+# @Date: 2020/08/08 9:39 上午
+# @Version: v1.0.1
+# =====================================
+# 启动端口号
+server:
+  port: 8001
+
+spring:
+  #热部署devtools配置,实际使用效果不如JRebel插件
+  #  devtools:
+  #    restart:
+  #      enabled: true  #设置开启热部署
+  #      additional-paths: src/main/java #重启目录
+  #      exclude: WEB-INF/**
+  #  freemarker:
+  #    cache: false    #页面不加载缓存，修改即时生效
+
+  #数据源配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/mango?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useOldAliasMetadataBehavior=true&useSSL=false
+    username: root
+    password: 123456
+
+# 配置log
+logging:
+  config: classpath:logback-spring-dev.xml
+  level:
+    com.hawthorn: debug
+    org.ibatis: debug
+    druid.sql: debug
+    org.springframework.jdbc: debug
+    root: info
+
+

@@ -1,0 +1,29 @@
+# =====================================
+# @Desc: springboot工程配置文件，使用yml方式
+# @Auther: andy.ten@tom.com
+# @Date: 2020/08/08 9:39 上午
+# @Version: v1.0.1
+# =====================================
+
+# 启动端口号
+server:
+  port: 8003
+
+spring:
+  #数据源配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/sprbdemo?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useOldAliasMetadataBehavior=true&useSSL=false
+    username: root
+    password: 123456
+
+# 配置log
+logging:
+  config: classpath:logback-spring-prod.xml
+  level:
+    hawthorn: info
+    ibatis: info
+    druid: info
+    springjdbc: info
+    springweb: info
+    root: info
+

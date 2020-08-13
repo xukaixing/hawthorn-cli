@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--springboot自带的日志即slf4j+logback-spring.xml-->
 <configuration>
+  <!--
+  <springProperty scope="context" name="logLevel" source="logging.level"/>
+  -->
   <!-- 文件输出格式 -->
   <!--格式化输出：%d:表示日期    %thread:表示线程名     %-5level:级别从左显示5个字符宽度  %msg:日志消息    %n:是换行符-->
   <property name="PATTERN"
@@ -8,11 +11,11 @@
   <!--日志文件输出路径 工程所在目录-->
   <property name="FILE_PATH" value="logs/"/>
 
-  <logger name="com.hawthorn" level="debug"/>
+  <logger name="com.hawthorn"/>
   <logger name="org.springframework.web" level="info"/>
-  <logger name="org.ibatis" level="debug"/>
-  <logger name="druid.sql" level="debug"/>
-  <logger name="org.springframework.jdbc" level="debug"/>
+  <logger name="org.ibatis"/>
+  <logger name="druid.sql"/>
+  <logger name="org.springframework.jdbc"/>
 
   <!-- 控制台打印 -->
   <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -135,7 +138,7 @@
     <appender-ref ref="ExecTime_FILE"/>
   </logger>
 
-  <root level="INFO">
+  <root>
     <appender-ref ref="ALLFILE"/>
     <appender-ref ref="CONSOLE"/>
     <appender-ref ref="ERRORFILE"/>
