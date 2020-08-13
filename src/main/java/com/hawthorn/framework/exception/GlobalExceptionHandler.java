@@ -14,10 +14,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 /**
- * @author: andy.ten@tom.com
- * @date: 2020/8/9 10:18 上午
- * @version: 1.0.1
- * @remark 全局异常捕获类
+ * @Copyright: Copyright (c) 2020 andyten
+
+ * @remark: 全局异常捕获类
+ * @author:andy.ten@tom.com
+ * @date:2020/8/11 5:26 下午
+ * @version v1.0.1
  */
 // 拦截全局的Controller的异常，注意：ControllerAdvice注解只拦截Controller不会拦截Interceptor的异常
 // 只能处理 Controller 层未捕获（往外抛）的异常，对于 Interceptor（拦截器）层的异常，Spring 框架层的异常，就无能为力了。

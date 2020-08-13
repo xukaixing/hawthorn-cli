@@ -3,11 +3,12 @@ package com.hawthorn.framework.ret;
 import com.hawthorn.framework.exception.BizCode;
 
 /**
- * @version v1.0.1
- * @className:RetResponse
- * @descripion: 返回结果封装类
+ * @Copyright: Copyright (c) 2020 andyten
+
+ * @remark: 返回结果封装类
  * @author:andy.ten@tom.com
- * @date:2020/7/15 7:18 下午
+ * @date:2020/8/11 5:26 下午
+ * @version v1.0.1
  */
 public class ResultUtil
 {

@@ -1,5 +1,6 @@
-package com.hawthorn.admin.model;
+package com.hawthorn.admin.model.sysuser;
 
+import com.hawthorn.admin.model.BaseModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -15,9 +16,9 @@ import lombok.ToString;
  * @date:2020/7/14 4:14 下午
  */
 
-@ApiModel(value = "SysUser对象", description = "用户对象user")
-@EqualsAndHashCode(callSuper = true)
+@ApiModel(value = "sys_user", description = "用户对象实体")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @ToString(exclude = {"password"})
 public class SysUser extends BaseModel
 {
@@ -40,8 +41,6 @@ public class SysUser extends BaseModel
   private Byte status;
 
   private Long deptId;
-
-  private Byte delFlag;
 
   public SysUser()
   {

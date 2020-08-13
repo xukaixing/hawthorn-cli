@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,14 +16,17 @@ import java.util.Map;
 import static java.util.Map.Entry;
 
 /**
- * @author: andy.ten@tom.com
- * @date: 2020/8/9 10:20 上午
- * @version: 1.0.1
- * @remark ExecTime注解的切面类
+ * @Copyright: Copyright (c) 2020 andyten
+
+ * @remark: ExecTime注解的切面类
+ * @author:andy.ten@tom.com
+ * @date:2020/8/11 5:24 下午
+ * @version v1.0.1
  */
 @Aspect
 @Component
 @Slf4j
+@Order(2)
 public class ExecTimeAspect<T>
 {
 
@@ -30,6 +34,13 @@ public class ExecTimeAspect<T>
   private long errtime;
   @Value("${myprops.exectime.warntime:2000}")
   private long warntime;
+
+  // final MyPropsConfig myPropsConfig;
+  // @Autowired
+  // public ExecTimeAspect(MyPropsConfig myPropsConfig)
+  // {
+  //   this.myPropsConfig = myPropsConfig;
+  // }
 
   // 定义切入点
 
@@ -50,13 +61,23 @@ public class ExecTimeAspect<T>
   @Pointcut("@within(com.hawthorn.framework.annotation.ExecTime) || @annotation(com.hawthorn.framework.annotation.ExecTime)")
   public void execTimePointcut()
   {
-
   }
 
   // 环绕
   @Around("execTimePointcut()")
   public Object handleExecTimeLog(ProceedingJoinPoint joinPoint)
   {
+    //@Before
+    // config用法，spring推荐使用该方法获取参数值
+    // long errtime = 3000;
+    // long warntime = 2000;
+    // if (myPropsConfig.getExectime() != null && myPropsConfig.getExectime().size() == 2)
+    // {
+    //   errtime = myPropsConfig.getExectime().get("errtime");
+    //   warntime = myPropsConfig.getExectime().get("warntime");
+    // }
+
+
     HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
     String url = "";
     String method = "";
@@ -92,16 +113,19 @@ public class ExecTimeAspect<T>
     // 执行目标 service
     Object result = null;
 
+    //exec 切入点方法执行
     try
     {
       result = joinPoint.proceed();
     } catch (Throwable t)
     {
+      //@AfterThrowing
       log.error("====== 执行结束 发生异常 {} {}.{} {}->{}{} ======", t.getMessage(), targetClass, targetMethod, method, url, args);
       // 抛出RuntimeException异常，给GlobalExceptionHandle
       throw new RuntimeException(t.getMessage());
     }
 
+    //@AfterReturning
     // 记录结束时间
     long end = System.currentTimeMillis();
     long takeTime = end - begin;

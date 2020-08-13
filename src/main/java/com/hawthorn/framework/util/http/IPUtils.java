@@ -3,10 +3,12 @@ package com.hawthorn.framework.util.http;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @version v1.0.1
+ * @Copyright: Copyright (c) 2020 andyten
+
  * @remark: 获取ip地址工具类
  * @author:andy.ten@tom.com
- * @date:2020/8/9 11:35 上午
+ * @date:2020/8/11 5:27 下午
+ * @version v1.0.1
  */
 public class IPUtils
 {

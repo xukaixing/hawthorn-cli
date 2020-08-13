@@ -19,10 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author: andy.ten@tom.com
- * @date: 2020/8/9 10:20 上午
- * @version: 1.0.1
- * @remark swagger配置类
+ * @Copyright: Copyright (c) 2020 andyten
+
+ * @remark: swagger2配置类
+ * @author:andy.ten@tom.com
+ * @date:2020/8/11 5:25 下午
+ * @version v1.0.1
  */
 @Configuration
 // 启动swagger
@@ -77,7 +79,7 @@ public class SwaggerConfig
   {
     return new ApiInfoBuilder()
         .title("Swagger2 接口服务API文档")
-        .description("hawthorn-microplatform")
+        .description("hawthorn-cli")
         .version("1.0")
         .license("version1.0.1")
         .contact(new Contact("xukaixing", "https://github.com/xukaixing/", "andy.ten@tom.com"))

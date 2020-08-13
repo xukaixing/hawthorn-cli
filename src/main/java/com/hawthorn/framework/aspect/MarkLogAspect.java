@@ -8,10 +8,12 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 /**
- * @author: andy.ten@tom.com
- * @date: 2020/8/9 10:20 上午
- * @version: 1.0.1
- * @remark MarkLog注解的切面类
+ * @Copyright: Copyright (c) 2020 andyten
+
+ * @remark: MarkLog注解的切面类
+ * @author:andy.ten@tom.com
+ * @date:2020/8/11 5:21 下午
+ * @version v1.0.1
  */
 @Aspect
 @Component
@@ -32,7 +34,6 @@ public class MarkLogAspect
   @Pointcut("@within(com.hawthorn.framework.annotation.MarkLog) || @annotation(com.hawthorn.framework.annotation.MarkLog)")
   public void markLogPointcut()
   {
-
   }
 
   // 环绕

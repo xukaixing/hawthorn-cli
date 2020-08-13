@@ -1,10 +1,12 @@
 package com.hawthorn.framework.exception;
 
 /**
- * @author: andy.ten@tom.com
- * @date: 2020/8/9 10:17 上午
- * @version: 1.0.1
- * @remark 异常错误代码枚举类
+ * @Copyright: Copyright (c) 2020 andyten
+
+ * @remark: 异常错误代码枚举类
+ * @author:andy.ten@tom.com
+ * @date:2020/8/11 5:26 下午
+ * @version v1.0.1
  */
 public enum BizCode
 {

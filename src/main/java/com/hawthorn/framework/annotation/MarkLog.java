@@ -4,11 +4,13 @@ import org.springframework.stereotype.Component;
 
 import java.lang.annotation.*;
 
-/*
- * @author: andy.ten@tom.com
- * @date: 2020/8/8 2:36 下午
- * @version: 1.0.1
+/**
+ * @Copyright: Copyright (c) 2020 andyten
+
  * @remark: 自定义记录日志注解，使用该注解，表明需要将日志保存到数据库中
+ * @author:andy.ten@tom.com
+ * @date:2020/8/11 5:15 下午
+ * @version v1.0.1
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

@@ -7,10 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @version v1.0.1
+ * @Copyright: Copyright (c) 2020 andyten
+
  * @remark: 读取application.yml自定义属性类
  * @author:andy.ten@tom.com
- * @date:2020/8/8 11:50 下午
+ * @date:2020/8/11 5:27 下午
+ * @version v1.0.1
  */
 @Component
 @ConfigurationProperties(prefix = "myprops")
@@ -28,4 +30,5 @@ public class MyPropsConfig
   {
     this.exectime = exectime;
   }
+  
 }

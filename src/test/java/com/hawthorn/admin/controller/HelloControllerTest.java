@@ -1,6 +1,6 @@
 package com.hawthorn.admin.controller;
 
-import com.hawthorn.HawthornApplication;
+import com.hawthorn.BootApplication;
 import com.hawthorn.admin.service.Hello;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {HawthornApplication.class})
+@SpringBootTest(classes = {BootApplication.class})
 @Slf4j
 public class HelloControllerTest
 {

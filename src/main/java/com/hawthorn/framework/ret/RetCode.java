@@ -2,6 +2,14 @@ package com.hawthorn.framework.ret;
 
 import com.hawthorn.framework.util.http.HttpStatusUtils;
 
+/**
+ * @Copyright: Copyright (c) 2020 andyten
+
+ * @remark: TODO
+ * @author:andy.ten@tom.com
+ * @date:2020/8/11 5:27 下午
+ * @version v1.0.1
+ */
 public enum RetCode
 {
   // 成功

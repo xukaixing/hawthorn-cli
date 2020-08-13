@@ -1,6 +1,6 @@
 package com.hawthorn.admin.controller;
 
-import com.hawthorn.admin.model.SysUser;
+import com.hawthorn.admin.model.sysuser.SysUser;
 import com.hawthorn.admin.service.Hello;
 import com.hawthorn.framework.annotation.ExecTime;
 import com.hawthorn.framework.ret.BaseResult;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date:2020/7/14 12:38 下午
  */
 
-@Api(tags = {"Hello服务swagger api"})
+@Api(tags = {"demo-hello-controller"})
 @RestController
 @ExecTime
 public class HelloController
@@ -34,6 +34,7 @@ public class HelloController
   {
     this.hello = hello;
   }
+  
 
   @ApiOperation(value = "获取hello信息", notes = "【notes】:该方法为测试controller")
   @ApiImplicitParams({
@@ -58,6 +59,7 @@ public class HelloController
       @ApiImplicitParam(name = "username", value = "", required = false, dataType = "string", paramType = "query"),
       @ApiImplicitParam(name = "name", value = "", required = false, dataType = "string", paramType = "query")
   })
+
   @GetMapping(value = "sayHello")
   public BaseResult<String> sayHello(String username, String name)
   {

@@ -10,7 +10,7 @@
   </parent>
   <groupId>com.andyten</groupId>
   <artifactId>hawthorn</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.3-SNAPSHOT</version>
   <name>hawthorn-cli</name>
   <description>Demo project for Spring Boot</description>
 
@@ -19,12 +19,19 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- 版本清单 -->
-    <java.version>1.8</java.version>
+    <java.version>8</java.version>
+    <maven.build.timestamp.format>yyyy_MM_dd_HH_mm_ss</maven.build.timestamp.format>
+    <project.build.date>${maven.build.timestamp}</project.build.date>
     <swagger2.version>2.9.2</swagger2.version>
     <swagger.ui.version>2.9.2</swagger.ui.version>
     <swagger.bootstrap.ui.version>1.9.2</swagger.bootstrap.ui.version>
-    <lombok.version>1.18.12</lombok.version>
     <hutool.version>5.3.9</hutool.version>
+    <!--
+    <jdbc.mysql.version>5.1.35</jdbc.mysql.version>
+    -->
+    <jdbc.mysql.version>8.0.20</jdbc.mysql.version>
+    <mybatis.plus.version>3.3.2</mybatis.plus.version>
+    <alibaba.druid.version>1.1.10</alibaba.druid.version>
   </properties>
 
   <dependencies>
@@ -78,8 +85,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>${lombok.version}</version>
-      <scope>provided</scope>
+      <optional>true</optional>
     </dependency>
 
     <!-- 配置hutool-->
@@ -93,20 +99,26 @@
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <scope>runtime</scope>
+      <version>${jdbc.mysql.version}</version>
     </dependency>
 
-    <!-- jpa 规范-->
+    <!-- jpa 规范
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
-
+    -->
+    <!-- mybatis-plus -->
+    <dependency>
+      <groupId>com.baomidou</groupId>
+      <artifactId>mybatis-plus-boot-starter</artifactId>
+      <version>${mybatis.plus.version}</version>
+    </dependency>
     <!--配置druid数据库连接池 spring boot 2.x 集成durid需要将durid升级到1.1.10。-->
     <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>druid-spring-boot-starter</artifactId>
-      <version>1.1.10</version>
+      <version>${alibaba.druid.version}</version>
     </dependency>
 
   </dependencies>
@@ -143,7 +155,7 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
           <!-- 工程主入口-->
-          <mainClass>com.hawthorn.HawthornApplication</mainClass>
+          <mainClass>com.hawthorn.BootApplication</mainClass>
         </configuration>
         <executions>
           <execution>

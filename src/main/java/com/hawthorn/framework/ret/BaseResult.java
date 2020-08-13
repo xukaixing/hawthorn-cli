@@ -5,11 +5,12 @@ import io.swagger.annotations.ApiModelProperty;
 import org.springframework.stereotype.Component;
 
 /**
- * @version v1.0.1
- * @className:BaseResult
- * @descripion: 基础返回结果类
+ * @Copyright: Copyright (c) 2020 andyten
+
+ * @remark: 基础返回结果类
  * @author:andy.ten@tom.com
- * @date:2020/7/15 7:17 下午
+ * @date:2020/8/11 5:26 下午
+ * @version v1.0.1
  */
 @ApiModel(value = "结果返回类", description = "通用结果返回类对象")
 @Component

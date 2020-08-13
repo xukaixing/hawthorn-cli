@@ -65,6 +65,9 @@ $RECYCLE.BIN/
 ### dic file ###
 dic
 
+### license ###
+license.dat
+
 ### rebel ###
 rebel.xml
 .rebel.xml.bak

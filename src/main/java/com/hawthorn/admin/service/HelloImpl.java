@@ -15,7 +15,7 @@ public class HelloImpl implements Hello
   @Override
   public void sayHello()
   {
-    
+
     String s = "a";
     System.out.println("ss" + s.substring(111));
   }

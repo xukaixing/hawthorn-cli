@@ -1,10 +1,19 @@
 # 说明
 
   `hawthorn-cli` hawthorn搭建模版。   
-  作者:andy.ten@tom.com 
+  作者:andy.ten@tom.com
+      xukaixing@hotmail.com
   
 ## 版本
-> v1.0.1 : 2020.08.08 
+> v1.0.3 : 2020.08.10 
+>> 增加application.yml多环境配置    
+>> 增加bootstrap.yml配置文件  
+>> 增加增加bootstrap.yml中增加mybatis配置  
+>> 增加logback.xml多环境配置
+
+---
+
+> v1.0.2 : 2020.08.08 
 >> 日志增加exectime配置  
 >> 调整目录结构，增加framework包  
 >> 增加aop切面功能  
@@ -35,6 +44,8 @@
   - `HuTool`: java工具包
   - `configuration-processor`: 自定义属性配置插件
   - `exectime`: 增加aop的执行时间插件
+  - `mybatis`: 增加mybatis依赖
+  - `mybatis-plus`: 增加plus依赖
   
 ## 运行
 
