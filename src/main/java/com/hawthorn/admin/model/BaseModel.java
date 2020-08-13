@@ -23,4 +23,8 @@ public class BaseModel
 
   private Date lastUpdateTime;
 
+  private Byte delFlag;
+
+  private Byte status;
+
 }
