@@ -35,6 +35,11 @@ public class ResultUtil
     return new BaseResult<T>().setCode(bizCode.getCode()).setMsg(bizCode.getMsg()).setStatus(FAIL);
   }
 
+  public static <T> BaseResult<T> fail(BizCode bizCode, T data)
+  {
+    return new BaseResult<T>().setCode(bizCode.getCode()).setMsg(bizCode.getMsg()).setData(data).setStatus(FAIL);
+  }
+
   public static <T> BaseResult<T> fail(String message)
   {
     return new BaseResult<T>().setCode(RetCode.FAIL).setMsg(message).setStatus(FAIL);

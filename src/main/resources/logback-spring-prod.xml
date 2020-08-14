@@ -134,7 +134,7 @@
     </filter>
   </appender>
   <!-- execTime执行方法慢日志 -->
-  <logger name="com.hawthorn.framework.aspect.ExecTimeAspect" level="WARN">
+  <logger name="com.hawthorn.framework.aspect.ExecTimeAspect">
     <appender-ref ref="ExecTime_FILE"/>
   </logger>
 

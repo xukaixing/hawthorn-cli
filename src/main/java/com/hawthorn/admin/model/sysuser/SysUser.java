@@ -8,14 +8,15 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
 
-/**
- * @version v1.0.1
- * @className:SysUser
- * @descripion: 系统用户类
- * @author:andy.ten@tom.com
- * @date:2020/7/14 4:14 下午
- */
 
+/**
+ * @Copyright: Copyright (c) 2020 andyten
+
+ * @remark: 系统用户类
+ * @author:andy.ten@tom.com
+ * @date:2020/8/13 8:11 下午
+ * @version v1.0.1
+ */
 @ApiModel(value = "sys_user", description = "用户对象实体")
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -37,9 +38,11 @@ public class SysUser extends BaseModel
   private String email;
 
   private String mobile;
-
+  //Integer类型的属性加@ApiModelProperty时，必须要给example参数赋值，且值必须为数字类型
+  //否则刷新swagger页面，会报java.lang.NumberFormatException: For input string: "" 错误
+  @ApiModelProperty(value = "状态", name = "status", example = "1")
   private Byte status;
-
+  @ApiModelProperty(value = "部门id", name = "deptId", example = "00")
   private Long deptId;
 
   public SysUser()

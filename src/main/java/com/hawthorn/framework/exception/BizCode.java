@@ -17,6 +17,19 @@ public enum BizCode
   REQUEST_NULL(-10004, "请求有错误"),
   SESSION_TIMEOUT(-10005, "会话超时"),
   SERVER_ERROR(-10006, "服务器异常"),
+
+  METHOD_ARGS_ISNULL(-11001, "参数[{}]值不能为空"),
+  METHOD_ILLEGAL_ARGS(-11002, "非法参数异常"),
+  METHOD_NOT_FOUND(-11003, "方法不存在异"),
+  METHOD_ARGS_INVALID(-11004, "方法参数无效异"),
+
+  FORMAT_STR_NUM(-12001, "字符串转数字异常"),
+  INDEX_OUTOF_BOUND(-12002, "角标越界异常"),
+  NULL_POINTER(-12003, "空指针异常"),
+  CLASS_NOT_FOUND(-12004, "未找到指定类异常"),
+
+
+  UNKNOW_ERROR(-19999, "未知错误异常"),
   //权限
   DB_RESOURCE_NULL(-20001, "数据库中没有该资源"),
   NO_PERMITION(-20002, "权限异常"),
@@ -39,7 +52,13 @@ public enum BizCode
   //文件
   FILE_READING_ERROR(-50001, "文件读取失败!"),
   FILE_NOT_FOUND(-50002, "文件未找到!"),
-  UPLOAD_ERROR(-50003, "上传图片出错");
+  UPLOAD_ERROR(-50003, "上传图片出错"),
+
+  FILE_OP_ERROR(-59999, "文件流操作失败."),
+
+  //SQL
+  SQL_DUPLICATE_KEY(-60001, "唯一键值列数据重复");
+
   //
   public int code;
   public String msg;

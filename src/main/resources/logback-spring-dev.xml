@@ -14,6 +14,7 @@
 
   <logger name="com.hawthorn"/>
   <logger name="org.springframework.web" level="info"/>
+  <logger name="org.springframework.dao" level="info"/>
   <logger name="org.ibatis"/>
   <logger name="druid.sql"/>
   <logger name="org.springframework.jdbc"/>
@@ -134,8 +135,9 @@
       <level>WARN</level>
     </filter>
   </appender>
+
   <!-- execTime执行方法慢日志 -->
-  <logger name="com.hawthorn.framework.aspect.ExecTimeAspect" level="WARN">
+  <logger name="com.hawthorn.framework.aspect.ExecTimeAspect">
     <appender-ref ref="ExecTime_FILE"/>
   </logger>
 

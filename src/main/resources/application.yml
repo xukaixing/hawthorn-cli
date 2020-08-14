@@ -9,14 +9,6 @@
 spring:
   profiles:
     active: dev
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    #driver-class-name: com.mysql.jdbc.Driver
-    #com.mysql.jdbc.Driver： 是mybatis-connection-java 5 及 5 以下的
-    #com.mysql.cj.jdbc.Driver:对应的是mybatis-connection-Java 6 及以上的,推荐使用
-    #com.mysql.cj.jdbc.Driver:需在url后增加指定时区参数：&serverTimezone=Asia/Shanghai
-    #UTC:比中国时间早8个小时
-    #driver-class-name: com.mysql.cj.jdbc.Driver
 
 # 自定义属性
 myprops:

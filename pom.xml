@@ -23,6 +23,9 @@
     <maven.build.timestamp.format>yyyy_MM_dd_HH_mm_ss</maven.build.timestamp.format>
     <project.build.date>${maven.build.timestamp}</project.build.date>
     <swagger2.version>2.9.2</swagger2.version>
+    <!-- swagger的annotations 、models 版本升级为1.5.22.默认为1.5.20,解决刷新swagger页面，会报java.lang.NumberFormatException: For input string: "" 错误-->
+    <swagger2.annotations.version>1.5.22</swagger2.annotations.version>
+    <swagger2.models.version>1.5.22</swagger2.models.version>
     <swagger.ui.version>2.9.2</swagger.ui.version>
     <swagger.bootstrap.ui.version>1.9.2</swagger.bootstrap.ui.version>
     <hutool.version>5.3.9</hutool.version>
@@ -32,8 +35,20 @@
     <jdbc.mysql.version>8.0.20</jdbc.mysql.version>
     <mybatis.plus.version>3.3.2</mybatis.plus.version>
     <alibaba.druid.version>1.1.10</alibaba.druid.version>
+    <alibaba.fastjson.version>1.2.73</alibaba.fastjson.version>
   </properties>
-
+  <!-- 配置Spring Icloud -->
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>Hoxton.RELEASE</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -45,12 +60,18 @@
       <artifactId>spring-boot-starter</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-config</artifactId>
+    </dependency>
+
     <!-- 支持 @ConfigurationProperties 注解，application.yml自定义属性 -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-configuration-processor</artifactId>
       <optional>true</optional>
     </dependency>
+
     <!-- junit test -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -69,6 +90,16 @@
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger2</artifactId>
       <version>${swagger2.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>${swagger2.annotations.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-models</artifactId>
+      <version>${swagger2.models.version}</version>
     </dependency>
     <dependency>
       <groupId>io.springfox</groupId>
@@ -119,6 +150,13 @@
       <groupId>com.alibaba</groupId>
       <artifactId>druid-spring-boot-starter</artifactId>
       <version>${alibaba.druid.version}</version>
+    </dependency>
+
+    <!-- alibaba fastjson工具类 -->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>${alibaba.fastjson.version}</version>
     </dependency>
 
   </dependencies>

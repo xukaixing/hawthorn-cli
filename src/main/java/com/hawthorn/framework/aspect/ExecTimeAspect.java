@@ -26,7 +26,7 @@ import static java.util.Map.Entry;
 @Aspect
 @Component
 @Slf4j
-@Order(2)
+@Order(-1)
 public class ExecTimeAspect<T>
 {
 
@@ -54,18 +54,18 @@ public class ExecTimeAspect<T>
    * 第五处 *(..) *代表类中的方法名，(..)表示方法中的任何参数
    */
   // 针对所有匹配的文件进行切入拦截
-  //@Pointcut("execution(public * com.hawthorn.admin..*.*(..)))")
+  @Pointcut("execution(public * com.hawthorn.*.service..*.*(..)))")
   //使用切入注解，@annotation：无法识别类上的注解，是针对方法的注解
   //@within和@target:标注在类上的自定义注解
   //标注在类或者方法上执行切入
-  @Pointcut("@within(com.hawthorn.framework.annotation.ExecTime) || @annotation(com.hawthorn.framework.annotation.ExecTime)")
+  //@Pointcut("@within(com.hawthorn.framework.annotation.ExecTime) || @annotation(com.hawthorn.framework.annotation.ExecTime)")
   public void execTimePointcut()
   {
   }
 
   // 环绕
   @Around("execTimePointcut()")
-  public Object handleExecTimeLog(ProceedingJoinPoint joinPoint)
+  public Object handleExecTimeLog(ProceedingJoinPoint joinPoint) throws Throwable
   {
     //@Before
     // config用法，spring推荐使用该方法获取参数值
@@ -114,16 +114,16 @@ public class ExecTimeAspect<T>
     Object result = null;
 
     //exec 切入点方法执行
-    try
-    {
-      result = joinPoint.proceed();
-    } catch (Throwable t)
-    {
-      //@AfterThrowing
-      log.error("====== 执行结束 发生异常 {} {}.{} {}->{}{} ======", t.getMessage(), targetClass, targetMethod, method, url, args);
-      // 抛出RuntimeException异常，给GlobalExceptionHandle
-      throw new RuntimeException(t.getMessage());
-    }
+    //try
+    //{
+    result = joinPoint.proceed();
+    //} catch (Throwable t)
+    //{
+    //@AfterThrowing
+    //log.error("====== 执行结束 发生异常 {} {}.{} {}->{}{} ======", t.getMessage(), targetClass, targetMethod, method, url, args);
+    // 抛出RuntimeException异常，给GlobalExceptionHandle
+    //throw new RuntimeException(t.getMessage());
+    //}
 
     //@AfterReturning
     // 记录结束时间
@@ -131,10 +131,10 @@ public class ExecTimeAspect<T>
     long takeTime = end - begin;
     if (takeTime > errtime)
     {
-      log.error("====== 执行结束 错误 超过{}秒！ 耗时：{} 毫秒 {}.{} {}->{}{} ======", errtime / 1000, takeTime, targetClass, targetMethod, method, url, args);
+      log.error("====== 执行结束 错误 超过{}秒！ 耗时：{} 秒 {}.{} {}->{}{} ======", errtime / 1000, takeTime / 1000, targetClass, targetMethod, method, url, args);
     } else if (takeTime > warntime)
     {
-      log.warn("====== 执行结束 警告 超过{}秒！ 耗时：{} 毫秒 {}.{} {}->{}{} ======", warntime / 1000, takeTime, targetClass, targetMethod, method, url, args);
+      log.warn("====== 执行结束 警告 超过{}秒！ 耗时：{} 秒 {}.{} {}->{}{} ======", warntime / 1000, takeTime / 1000, targetClass, targetMethod, method, url, args);
     } else
     {
       log.info("====== 执行结束 耗时：{} 毫秒 ======", takeTime);

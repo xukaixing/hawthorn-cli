@@ -1,5 +1,6 @@
 package com.hawthorn.framework.ret;
 
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,15 @@ public class BaseResult<T>
   private String msg;
   @ApiModelProperty(value = "数据", name = "data")
   private T data;
+
+  @SuppressWarnings("unchecked")
+  public BaseResult()
+  {
+    this.code = 200;
+    this.status = "";
+    this.msg = "";
+    this.data = (T) (new JSONObject());
+  }
 
   public BaseResult<T> setCode(RetCode retCode)
   {

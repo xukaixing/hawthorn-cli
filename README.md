@@ -8,7 +8,7 @@
 > v1.0.3 : 2020.08.10 
 >> 增加application.yml多环境配置    
 >> 增加bootstrap.yml配置文件  
->> 增加增加bootstrap.yml中增加mybatis配置  
+>> 增加mybatis配置  
 >> 增加logback.xml多环境配置
 
 ---
@@ -45,7 +45,8 @@
   - `configuration-processor`: 自定义属性配置插件
   - `exectime`: 增加aop的执行时间插件
   - `mybatis`: 增加mybatis依赖
-  - `mybatis-plus`: 增加plus依赖
+  - `mybatis-plus`: 增加mybatis-plus依赖
+  - `fastjson`: 增加阿里json处理插件
   
 ## 运行
 

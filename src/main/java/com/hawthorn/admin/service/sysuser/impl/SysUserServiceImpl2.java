@@ -4,13 +4,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hawthorn.admin.model.sysuser.SysUser;
 import com.hawthorn.admin.repository.sysuser.SysUserMapper;
 import com.hawthorn.admin.repository.sysuser.SysUserMapperPrivider;
-import com.hawthorn.admin.service.sysuser.SysUserService;
 import com.hawthorn.admin.service.sysuser.SysUserService2;
-import com.hawthorn.framework.annotation.ExecTime;
 import com.hawthorn.framework.exception.BizCode;
 import com.hawthorn.framework.util.iassert.AssertUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,15 +16,14 @@ import java.util.List;
 
 /**
  * @Copyright: Copyright (c) 2020 andyten
- * @remark: 系统用户service
+ * @remark: 测试@transactional事务一致性类
  * @author:andy.ten@tom.com
  * @date:2020/8/13 3:56 下午
  * @version v1.0.1
  */
 @Service
-@ExecTime
 @Slf4j
-public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService
+public class SysUserServiceImpl2 extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService2
 {
   @Resource
   private SysUserMapper sysUserMapper;
@@ -57,10 +53,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     return sysUserMapper.selectAllByField(fieldName, fieldValue);
   }
 
-  @Autowired
-  private SysUserService2 sysUserService2;
-
-  @Transactional(rollbackFor = {Exception.class})
+  //@Transactional(rollbackFor = {Exception.class})
   public boolean insertUser()
   {
     SysUser u = new SysUser();
@@ -69,30 +62,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     //baseMapper.insert(u);
     saveOrUpdate(u);
     log.info("1");
-    sysUserService2.insertUser();
     // SysUser u2 = new SysUser();
     // u2.setName("test");
     // u2.setNickName("test");
     // u2.setStatus((byte) 0);
     // saveOrUpdate(u2);
-    //insertUser2();
+    insertUser2();
     return true;
   }
 
-  /**
-   * @remark: 测试transactional方法
-   * @param:
-   * @return: boolean
-
-   * @author: andy.ten@tom.com
-   * @date: 2020/8/14 10:24 上午
-   * @version: 1.0.1
-   * Modification History:
-   * Date         Author          Version            Description
-   * -----------------------------------------------------------
-   * 2020/8/14    andy.ten        v1.0.1             init
-   */
-  //@Transactional(rollbackFor = {Exception.class})
+  @Transactional(rollbackFor = {Exception.class})
   public boolean insertUser2()
   {
     SysUser u = new SysUser();

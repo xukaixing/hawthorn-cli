@@ -12,16 +12,20 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @version v1.0.1
- * @className:HelloController
- * @descripion: helloController测试类
- * @author:andy.ten@tom.com
- * @date:2020/7/14 12:38 下午
- */
+import javax.sql.DataSource;
+import java.sql.SQLException;
 
+/**
+ * @Copyright: Copyright (c) 2020 andyten
+
+ * @remark: helloController测试类
+ * @author:andy.ten@tom.com
+ * @date:2020/8/13 8:10 下午
+ * @version v1.0.1
+ */
 @Api(tags = {"demo-hello-controller"})
 @RestController
 @ExecTime
@@ -34,7 +38,7 @@ public class HelloController
   {
     this.hello = hello;
   }
-  
+
 
   @ApiOperation(value = "获取hello信息", notes = "【notes】:该方法为测试controller")
   @ApiImplicitParams({
@@ -69,5 +73,17 @@ public class HelloController
     // 测试异常
     hello.sayHello();
     return ResultUtil.success(s);
+  }
+
+  @Autowired
+  private DataSource dataSource;
+
+  @GetMapping("/db")
+  @ResponseBody
+  public String getDBInfo() throws SQLException
+  {
+    System.out.println(dataSource.getConnection());
+    System.out.println(dataSource);
+    return "hello spring boot";
   }
 }

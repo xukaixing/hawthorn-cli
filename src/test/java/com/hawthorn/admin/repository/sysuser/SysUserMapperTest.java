@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * @Copyright: Copyright (c) $ andyten
+ * @Copyright: Copyright (c) 2020 andyten
  * @remark: SysUserMapper测试类
  * @author:andy.ten@tom.com
  * @date:2020/8/13 11:55 上午
