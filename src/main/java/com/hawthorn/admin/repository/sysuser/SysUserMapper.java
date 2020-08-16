@@ -1,7 +1,10 @@
 package com.hawthorn.admin.repository.sysuser;
 
 import com.hawthorn.admin.model.sysuser.SysUser;
-import com.hawthorn.framework.repository.IBaseMapper;
+import com.hawthorn.admin.repository.sysuser.provider.SysUserSqlProvider;
+import com.hawthorn.framework.repository.DBMapper;
+import org.apache.ibatis.annotations.SelectProvider;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -12,7 +15,8 @@ import java.util.List;
  * @date:2020/8/13 11:47 上午
  * @version v1.0.1
  */
-public interface SysUserMapper extends IBaseMapper<SysUser>
+@Repository
+public interface SysUserMapper extends DBMapper<SysUser>
 {
   /**
    * @remark:查询全部的用户信息
@@ -28,6 +32,9 @@ public interface SysUserMapper extends IBaseMapper<SysUser>
    * 2020/8/13    andy.ten        v1.0.1             init
    */
   List<SysUser> selectAll();
+
+  @SelectProvider(SysUserSqlProvider.class)
+  List<SysUser> selectAllPrivider();
 
   /**
    * @remark:根据状态查询用户信息
@@ -59,5 +66,6 @@ public interface SysUserMapper extends IBaseMapper<SysUser>
    * 2020/8/13    andy.ten        v1.0.1             init
    */
   List<SysUser> selectAllByField(String fieldName, String fieldValue);
-  
+
+
 }

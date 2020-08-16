@@ -1,11 +1,10 @@
 package com.hawthorn.admin.service.sysuser.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hawthorn.admin.model.sysuser.SysUser;
 import com.hawthorn.admin.repository.sysuser.SysUserMapper;
-import com.hawthorn.admin.repository.sysuser.SysUserMapperPrivider;
 import com.hawthorn.admin.service.sysuser.SysUserService2;
 import com.hawthorn.framework.exception.BizCode;
+import com.hawthorn.framework.service.DBService;
 import com.hawthorn.framework.util.iassert.AssertUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,13 +22,12 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class SysUserServiceImpl2 extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService2
+public class SysUserServiceImpl2 implements SysUserService2
 {
   @Resource
   private SysUserMapper sysUserMapper;
-
   @Resource
-  private SysUserMapperPrivider sysUserMapperPrivider;
+  private DBService<SysUser> dbService;
 
   public List<SysUser> selectAll()
   {
@@ -38,7 +36,7 @@ public class SysUserServiceImpl2 extends ServiceImpl<SysUserMapper, SysUser> imp
 
   public List<SysUser> selectAllPrivider()
   {
-    return sysUserMapperPrivider.selectAll();
+    return sysUserMapper.selectAllPrivider();
   }
 
   public List<SysUser> selectAllByStatus(Byte status)
@@ -60,7 +58,7 @@ public class SysUserServiceImpl2 extends ServiceImpl<SysUserMapper, SysUser> imp
     u.setName("test");
     u.setNickName("test");
     //baseMapper.insert(u);
-    saveOrUpdate(u);
+    dbService.saveOrUpdate(u);
     log.info("1");
     // SysUser u2 = new SysUser();
     // u2.setName("test");
@@ -78,7 +76,7 @@ public class SysUserServiceImpl2 extends ServiceImpl<SysUserMapper, SysUser> imp
     u.setName("test");
     u.setNickName("test");
     //baseMapper.insert(u);
-    saveOrUpdate(u);
+    dbService.saveOrUpdate(u);
     // SysUser u2 = new SysUser();
     // u2.setName("test");
     // u2.setNickName("test");

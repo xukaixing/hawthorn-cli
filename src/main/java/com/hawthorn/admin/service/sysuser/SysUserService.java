@@ -11,7 +11,7 @@ import java.util.List;
  * @date:2020/8/13 3:57 下午
  * @version v1.0.1
  */
-public interface SysUserService //extends IBaseService<SysUser>
+public interface SysUserService
 {
   List<SysUser> selectAll();
 

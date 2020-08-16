@@ -1,18 +1,16 @@
 package com.hawthorn.admin.service.sysuser.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hawthorn.admin.model.sysuser.SysUser;
 import com.hawthorn.admin.repository.sysuser.SysUserMapper;
-import com.hawthorn.admin.repository.sysuser.SysUserMapperPrivider;
 import com.hawthorn.admin.service.sysuser.SysUserService;
 import com.hawthorn.admin.service.sysuser.SysUserService2;
 import com.hawthorn.framework.annotation.ExecTime;
 import com.hawthorn.framework.exception.BizCode;
+import com.hawthorn.framework.service.DBService;
 import com.hawthorn.framework.util.iassert.AssertUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -27,13 +25,13 @@ import java.util.List;
 @Service
 @ExecTime
 @Slf4j
-public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService
+public class SysUserServiceImpl implements SysUserService
 {
-  @Resource
-  private SysUserMapper sysUserMapper;
 
   @Resource
-  private SysUserMapperPrivider sysUserMapperPrivider;
+  private SysUserMapper sysUserMapper;
+  @Resource
+  private DBService<SysUser> dbService;
 
   public List<SysUser> selectAll()
   {
@@ -42,7 +40,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
   public List<SysUser> selectAllPrivider()
   {
-    return sysUserMapperPrivider.selectAll();
+    return sysUserMapper.selectAllPrivider();
   }
 
   public List<SysUser> selectAllByStatus(Byte status)
@@ -60,14 +58,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
   @Autowired
   private SysUserService2 sysUserService2;
 
-  @Transactional(rollbackFor = {Exception.class})
+  //@Transactional(rollbackFor = {Exception.class})
   public boolean insertUser()
   {
     SysUser u = new SysUser();
     u.setName("test");
     u.setNickName("test");
     //baseMapper.insert(u);
-    saveOrUpdate(u);
+    sysUserMapper.insert(u);
     log.info("1");
     sysUserService2.insertUser();
     // SysUser u2 = new SysUser();
@@ -99,7 +97,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     u.setName("test");
     u.setNickName("test");
     //baseMapper.insert(u);
-    saveOrUpdate(u);
+    dbService.saveOrUpdate(u);
     // SysUser u2 = new SysUser();
     // u2.setName("test");
     // u2.setNickName("test");

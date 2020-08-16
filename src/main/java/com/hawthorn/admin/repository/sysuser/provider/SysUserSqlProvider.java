@@ -12,7 +12,7 @@ import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
 public class SysUserSqlProvider implements ProviderMethodResolver
 {
   // 默认实现中，会将映射器方法的调用解析到实现的同名方法上（版本3.5.1+）
-  public static String selectAll()
+  public static String selectAllPrivider()
   {
     return " SELECT * FROM SYS_USER ";
 
