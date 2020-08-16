@@ -18,18 +18,22 @@ spring:
       min-idle: 10
       #最大连接池数量 maxIdle已经不再使用
       max-active: 20
-      #获取连接时最大等待时间，单位毫秒
+      #获取连接等待超时的时间，单位毫秒
       max-wait: 60000
-      #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
-      test-while-idle: true
-      #既作为检测的间隔时间又作为testWhileIdel执行的依据
+      #既作为检测的间隔时间又作为testWhileIdel执行的依据，间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
       time-between-eviction-runs-millis: 60000
       #销毁线程时检测当前连接的最后活动时间和当前时间差大于该值时，关闭当前连接
-      min-evictable-idle-time-millis: 30000
+      #一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      #一个连接在池中最大生存的时间，单位是毫秒
+      #max-evictable-idle-time-millis: 900000
       #用来检测连接是否有效的sql 必须是一个查询语句
       #mysql中为 select 'x'
       #oracle中为 select 1 from dual
       validation-query: select 'x'
+      validationQueryTimeout: 5
+      #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-while-idle: true
       #申请连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
       test-on-borrow: false
       #归还连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
@@ -40,25 +44,79 @@ spring:
       pool-prepared-statements: true
       #当值大于0时poolPreparedStatements会自动修改为true
       max-pool-prepared-statement-per-connection-size: 20
-      #配置扩展插件
-      filters: stat,wall,slf4j
-      #通过connectProperties属性来打开mergeSql功能；慢SQL记录
-      #slowSqlMillis=5000：5秒以上视为慢sql
-      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=1000;druid.stat.logSlowSql=true
       #合并多个DruidDataSource的监控数据
       use-global-data-source-stat: true
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙，注意filter是有顺序的
+      filters: stat,wall,slf4j
+      filter:
+        # 统计监控信息，配置慢sql
+        stat:
+          enabled: true
+          log-slow-sql: true
+          slow-sql-millis: 3000
+          merge-sql: true
+          #db-type: sqlserver
+        # 防御SQL注入攻击,配置SQL防火墙
+        wall:
+          enabled: true
+          config:
+            # 是否允许执行Alter Table语句
+            alter-table-allow: false
+            # truncate语句是危险，缺省打开，若需要自行关闭
+            truncate-allow: false
+            drop-table-allow: false
+            #是否允许非以上基本语句的其他语句，缺省关闭，通过这个选项就能够屏蔽DDL
+            none-base-statement-allow: false
+            #检查UPDATE语句是否无where条件，这是有风险的，但不是SQL注入类型的风险
+            update-where-none-check: true
+            #SELECT ... INTO OUTFILE 是否允许，这个是mysql注入攻击的常见手段，缺省是禁止的
+            select-into-outfile-allow: false
+            #是否允许调用Connection.getMetadata方法，这个方法调用会暴露数据库的表信息
+            metadata-allow: true
+            #允许多条sql一起执行
+            multiStatementAllow: true
+          #对被认为是攻击的SQL进行LOG.error输出
+          log-violation: true
+          #对被认为是攻击的SQL抛出SQLExcepton
+          throw-exception: true
+          #db-type: mysql
+        slf4j:
+          enabled: true
+          connection-log-enabled: false
+          connection-close-after-log-enabled: false
+          connection-commit-after-log-enabled: false
+          connection-rollback-after-log-enabled: false
+          connection-connect-after-log-enabled: false
+          connection-connect-before-log-enabled: false
+          connection-log-error-enabled: false
+          data-source-log-enabled: false
+          result-set-log-enabled: false
+          statement-log-enabled: false
+          statement-create-after-log-enabled: false
+          statement-executable-sql-log-enable: true
+          # 开启后，将打印sql异常的堆栈信息
+          statement-log-error-enabled: false
       #设置访问druid监控页的账号和密码,默认没有
       stat-view-servlet:
+        # 是否启用StatViewServlet（监控页面）默认值为false（考虑到安全问题默认并未启动，如需启用建议设置密码或白名单以保障安全）
+        enabled: true
         login-username: admin
         login-password: admin123
         url-pattern: "/druid/*"
-        enabled: true
+      # 用于采集web-jdbc关联监控的数据,监控url访问
       web-stat-filter:
         enabled: true
         # 添加过滤规则
         url-pattern: /*
-        # 忽略过滤格式
+        # 排除不需要监控的url，比如.js,/jslib/等等
         exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+        # 最大session数，缺省是1000个
+        session-stat-max-count: 100000
+        # 关闭session统计
+        session-stat-enable: false
+      aop-patterns: com.hawthorn.*.service.*
+      # 物理连接初始化的时候执行的sql
+      #connection-init-sqls: 'set names utf8mb4'
 
 ##-------mybatis plus 配置----------------start----------------------
 mybatis-plus:
@@ -84,8 +142,9 @@ mybatis-plus:
       #capital-mode: true
       # Sequence序列接口实现类配置
       #key-generator: com.baomidou.mybatisplus.incrementer.OracleKeyGenerator
-      #逻辑删除配置（下面3个配置）
+      #逻辑删除配置 逻辑已删除值 1
       logic-delete-value: 1
+      # 逻辑未删除值 0
       logic-not-delete-value: 0
   #    sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
   #    #自定义填充策略接口实现
