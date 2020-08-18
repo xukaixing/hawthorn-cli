@@ -5,6 +5,14 @@
       xukaixing@hotmail.com
   
 ## 版本
+> v1.0.3 : 2020.08.18  
+>> 增加BasePO、BaseModel、BaseDTO封装类     
+>> 增加Str2Util、Map2ObjectUtil工具类，处理字符串工具类、map和object对象互相转换工具类      
+>> 增加Yml、Property文件读取工具类    
+>> 增加mp generator功能  
+
+---
+
 > v1.0.3 : 2020.08.10 
 >> 增加application.yml多环境配置    
 >> 增加bootstrap.yml配置文件    
@@ -46,6 +54,7 @@
   - `exectime`: 增加aop的执行时间插件
   - `mybatis`: 增加mybatis依赖
   - `mybatis-plus`: 增加mybatis-plus依赖
+  - `mybatis-plus generator`: 增加mybatis-plus generator插件
   - `fastjson`: 增加阿里json处理插件
   
 ## 运行
@@ -63,52 +72,36 @@
 └── src
     ├── main
     │   ├── java
-    │   │   └── com
-    │   │       └── hawthorn
-    │   │           ├── BootApplication.java
-    │   │           ├── admin
-    │   │           │   ├── controller
-    │   │           │   │   ├── HelloController.java
-    │   │           │   │   └── sysuser
-    │   │           │   ├── model
-    │   │           │   │   ├── BaseModel.java
-    │   │           │   │   └── sysuser
-    │   │           │   ├── repository
-    │   │           │   │   └── sysuser
-    │   │           │   └── service
-    │   │           │       ├── Hello.java
-    │   │           │       ├── HelloImpl.java
-    │   │           │       └── sysuser
-    │   │           └── framework
-    │   │               ├── annotation
-    │   │               │   ├── ExecTime.java
-    │   │               │   └── MarkLog.java
-    │   │               ├── aspect
-    │   │               │   ├── ExecTimeAspect.java
-    │   │               │   ├── MarkLogAspect.java
-    │   │               │   └── TransactionAdviceConfig.java
-    │   │               ├── config
-    │   │               │   ├── ApiError.java
-    │   │               │   ├── DruidConfig.java
-    │   │               │   └── SwaggerConfig.java
-    │   │               ├── controller
-    │   │               ├── exception
-    │   │               │   ├── BizCode.java
-    │   │               │   ├── BizException.java
-    │   │               │   └── GlobalExceptionHandler.java
-    │   │               ├── repository
-    │   │               │   └── IBaseMapper.java
-    │   │               ├── ret
-    │   │               │   ├── BaseResult.java
-    │   │               │   ├── ResultUtil.java
-    │   │               │   └── RetCode.java
-    │   │               ├── service
-    │   │               │   ├── IBaseService.java
-    │   │               │   └── impl
-    │   │               └── util
-    │   │                   ├── MyPropsConfig.java
-    │   │                   ├── http
-    │   │                   └── iassert
+    │   │   ├── com
+    │   │   │   └── hawthorn
+    │   │   │       ├── BootApplication.java
+    │   │   │       ├── admin
+    │   │   │       │   ├── controller
+    │   │   │       │   ├── model
+    │   │   │       │   ├── repository
+    │   │   │       │   └── service
+    │   │   │       └── framework
+    │   │   │           ├── annotation
+    │   │   │           ├── aspect
+    │   │   │           ├── config
+    │   │   │           ├── controller
+    │   │   │           ├── exception
+    │   │   │           ├── generator
+    │   │   │           ├── model
+    │   │   │           ├── repository
+    │   │   │           ├── ret
+    │   │   │           ├── service
+    │   │   │           └── utils
+    │   │   └── template
+    │   │       ├── myController.java.vm
+    │   │       ├── myControllerTest.java.vm
+    │   │       ├── myDto.java.vm
+    │   │       ├── myEntity.java.vm
+    │   │       ├── myMapper.java.vm
+    │   │       ├── myMapper.xml.vm
+    │   │       ├── myService.java.vm
+    │   │       ├── myServiceImpl.java.vm
+    │   │       └── myServiceImplTest.java.vm
     │   └── resources
     │       ├── META-INF
     │       ├── application-dev.yml
@@ -116,6 +109,7 @@
     │       ├── application.yml
     │       ├── banner.txt
     │       ├── bootstrap.yml
+    │       ├── generator.yml
     │       ├── logback-spring-dev.xml
     │       ├── logback-spring-prod.xml
     │       ├── mapper
@@ -125,16 +119,14 @@
         └── java
             └── com
                 └── hawthorn
-                    └── admin
-                        ├── controller
-                        │   └── HelloControllerTest.java
-                        ├── database
-                        │   ├── DruidInfoTest.java
-                        │   └── TransactionTest.java
-                        └── repository
-                            └── sysuser
+                    ├── admin
+                    │   ├── controller
+                    │   ├── database
+                    │   └── repository
+                    └── framework
+                        └── generator
 
-39 directories, 35 files
+36 directories, 21 files
 
 ```
 
