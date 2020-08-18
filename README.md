@@ -5,7 +5,7 @@
       xukaixing@hotmail.com
   
 ## 版本
-> v1.0.3 : 2020.08.18  
+> v1.0.4 : 2020.08.18  
 >> 增加BasePO、BaseModel、BaseDTO封装类     
 >> 增加Str2Util、Map2ObjectUtil工具类，处理字符串工具类、map和object对象互相转换工具类      
 >> 增加Yml、Property文件读取工具类    
@@ -26,15 +26,6 @@
 >> 调整目录结构，增加framework包  
 >> 增加aop切面功能  
 >> 增加aop的执行时间插件
-
----
-
-> v1.0.1 : 2020.07.14 
->> 配置日志格式配置：logback-spring.xml    
->> 增加了全局异常捕获处理  
->> 增加swagger2注解  
->> 增加swagger2美化ui  
->> 增加java工具包：hutool依赖
 
 ---
 

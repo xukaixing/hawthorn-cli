@@ -42,7 +42,7 @@
     <apache.common.lang3.version>3.7</apache.common.lang3.version>
     <apache.httpclient.version>4.5.9</apache.httpclient.version>
     <common.collection.version>3.2.2</common.collection.version>
-    <common.beanutils.version>1.9.3</common.beanutils.version>
+    <common.beanutils.version>1.9.4</common.beanutils.version>
 
   </properties>
   <!-- 配置Spring Icloud -->
