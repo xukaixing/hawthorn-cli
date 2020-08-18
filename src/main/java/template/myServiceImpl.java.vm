@@ -1,0 +1,185 @@
+package ${package.ServiceImpl};
+
+    #set($domainName=$!{entity})
+    #set($end= $domainName.length() - 2)
+    #set($domainName=$domainName.substring(0,$end)+"DTO")
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import ${superServiceImplClassPackage};
+import ${cfg.packageDto}.${domainName};
+import com.yonyou.cyx.function.exception.DALException;
+import com.yonyou.cyx.function.utils.common.StringUtils;
+import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+import java.util.Map;
+
+#set ($camelMapperName = $!{table.mapperName})
+#set ($camelMapperName = $camelMapperName.substring(0,1).toLowerCase() + $camelMapperName.substring(1,$camelMapperName.length()))
+
+#set ($camelPOName = $!{entity})
+#set ($camelPOName = $camelPOName.substring(0,1).toLowerCase() + $camelPOName.substring(1,$camelPOName.length()))
+
+#set ($camelDtoName = $!{domainName})
+#set ($camelDtoName = $camelDtoName.substring(0,1).toLowerCase() + $camelDtoName.substring(1,$camelDtoName.length()))
+
+#foreach($field in ${table.fields})
+    #if(${field.keyFlag})
+        #set($keyCapitalName=${field.capitalName})
+        #set($keyPropertyType=${field.propertyType})
+    #end
+#end
+
+/**
+ * <p>
+ * $!{table.comment} 服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Service
+#if(${kotlin})
+open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
+
+}
+#else
+@Transactional(rollbackFor = Exception.class)
+public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+    //日志对象
+    private static final Logger logger = LoggerFactory.getLogger(${table.serviceImplName}.class);
+    @Autowired
+    ${table.mapperName} ${camelMapperName};
+
+    /**
+     * 分页查询对应数据
+     *
+     * @param page 分页对象
+     * @param queryCondition 查询条件
+     * @return com.baomidou.mybatisplus.core.metadata.IPage<java.util.Map<java.lang.String,java.lang.Object>>
+     * @author ${author}
+     * @since 2018/7/22 0022
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    @Transactional(readOnly = true)
+    public IPage<Map<String, Object>> selectPageBysql(Page page, Map<String, Object> queryCondition) {
+        // 获取总条数
+        page.setRecords(${camelMapperName}.selectPageBySql(page, queryCondition));
+        return page;
+    }
+
+    /**
+     * 根据查询条件返回结果集
+     *
+     * @param queryCondition 查询条件
+     * @return java.util.List<java.util.Map<java.lang.String,java.lang.Object>>
+     * @author ${author}
+     * @since 2018/7/22 0022
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<Map<String,Object >> selectListBySql(Map<String, Object> queryCondition) {
+        return ${camelMapperName}.selectListBySql(queryCondition);
+    }
+
+    /**
+     * 根据查询条件返回结果集
+     *
+     * @param id 主键ID
+     * @return java.util.List<java.util.Map < java.lang.String , java.lang.Object>>
+     * @author ${author}
+     * @since 2018/7/22 0022
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Map<String, Object> getById(${keyPropertyType} id) {
+        ${entity} ${camelPOName} = ${camelMapperName}.selectById(id);
+        if(${camelPOName}!=null){
+            return ${camelPOName}.toMaps();
+        }else{
+            throw new DALException("查询失败,没有符合条件的数据");
+        }
+    }
+
+    /**
+     * 根据DTO 进行数据新增
+     *
+     * @param ${camelDtoName} 页面DTO
+     * @return void
+     * @author zhangxianchao
+     * @since 2018/7/21 0021
+     */
+    @Override
+    public Map<String,Object> insert(${domainName} ${camelDtoName}) {
+        //对对象进行赋值操作
+        ${entity} ${camelPOName} = ${camelDtoName}.transDtoToPo(${entity}.class);
+        //执行插入
+        ${camelMapperName}.insert(${camelPOName});
+        //返回插入的值
+        return ${camelMapperName}.selectById(${camelPOName}.get${keyCapitalName}()).toMaps();
+    }
+
+    /**
+     * 根据DTO 及ID 进行数据更新
+     *
+     * @param id 主键ID
+     * @param ${camelDtoName} 页面DTO
+     * @return void
+     * @author zhangxianchao
+     * @since 2018/7/21 0021
+     */
+    @Override
+    public Map<String,Object> update(${keyPropertyType} id, ${domainName} ${camelDtoName}) {
+        ${entity} ${camelPOName} = ${camelMapperName}.selectById(id);
+        //对对象进行赋值操作
+        ${camelDtoName}.transDtoToPo(${camelPOName});
+        //执行更新
+        ${camelMapperName}.updateById(${camelPOName});
+        return ${camelPOName}.toMaps();
+    }
+
+    /**
+     * 根据ID 进行删除数据
+     *
+     * @param id
+     * @return void
+     * @author zhangxianchao
+     * @since 2018/8/25 0025
+     */
+    @Override
+    public void deleteById(${keyPropertyType} id) {
+        int deleteCount = ${camelMapperName}.deleteById(id);
+        logger.debug("删除数量：{}",deleteCount);
+        if (deleteCount<=0) {
+            throw new DALException("删除失败,没有符合条件的数据");
+        }
+    }
+
+    /**
+     * 根据ids 进行删除
+     *
+     * @param ids
+     * @return void
+     * @author zhangxianchao
+     * @since 2018/8/25 0025
+     */
+    @Override
+    public void deleteBatchIds(String ids) {
+        List<${keyPropertyType}> longList = StringUtils.convertStrToArray(ids,",", ${keyPropertyType}.class);
+        int deleteCount = ${camelMapperName}.deleteBatchIds(longList);
+        logger.debug("删除数量：{}",deleteCount);
+        if (deleteCount!=longList.size()) {
+            throw new DALException("删除失败,没有符合条件的数据");
+        }
+    }
+}
+#end

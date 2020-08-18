@@ -1,0 +1,229 @@
+package ${package.Controller};
+
+    #set($domainName=$!{entity})
+    #set($end= $domainName.length() - 2)
+    #set($domainName=$domainName.substring(0,$end)+"DTO")
+    #set($controllerDomain=$domainName.substring(0,$end))
+    #set($dtoPackage=$!{package.Entity})
+    #set($dtoPackage=$dtoPackage.replace("entity","dto"))
+
+import ${cfg.packageDto}.${domainName};
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.yonyou.cyx.framework.bean.dto.framework.RestResultResponse;
+import com.yonyou.cyx.framework.dao.base.JsonPage;
+import com.yonyou.cyx.framework.test.BaseTest;
+import com.yonyou.cyx.framework.util.test.MockTestUtil;
+import com.yonyou.cyx.function.utils.jsonserializer.JSONUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpMethod;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.junit.Assert;
+import org.junit.Test;
+import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
+
+#set ($camelDtoName = $!{domainName})
+#set ($camelDtoName = $camelDtoName.substring(0,1).toLowerCase() + $camelDtoName.substring(1,$camelDtoName.length()))
+
+#set ($controllerDomain = $controllerDomain.substring(0,1).toLowerCase() + $controllerDomain.substring(1,$controllerDomain.length()))
+
+
+#foreach($field in ${table.fields})
+    #if(${field.keyFlag})
+        #set($keyPropertyName=${field.propertyName})
+    #end
+#end
+/**
+ * 对${table.controllerName}Test 进行测试
+ * @author ${author}
+ * @since ${date}
+ */
+public class ${table.controllerName}Test extends BaseTest {
+    //日志对象
+    private static final Logger logger = LoggerFactory.getLogger(${table.controllerName}Test.class);
+
+    private static final String mockUrlPrefix = "/api#if(${cfg.moduleName})/${cfg.moduleName}#end/#if
+            (${controllerMappingHyphenStyle})
+        ${controllerMappingHyphen}#else${controllerDomain}#end";
+    /**
+     * 对getList 进行单元测试
+     *
+     * @author ${author}
+     * @since ${date}
+     */
+    @Test
+    public void getList() {
+        MultiValueMap<String, String> testDataMap = new LinkedMultiValueMap<>();
+        testDataMap.add("currentPage","1");
+        testDataMap.add("pageSize","2");
+        //执行查询
+        String responseString = MockTestUtil.getUrlMock(mvc, mockUrlPrefix, testDataMap);
+        logger.debug("responseString:"+responseString);
+    }
+
+
+    /**
+     * 对 getById 进行测试
+     *
+     * @author ${author}
+     * @since ${date}
+     */
+    @Test
+    public void getById() {
+        List<Map<String,Object>> testDataList = getTestDataList();
+        Map<String,Object> testData = testDataList.get(0);
+        Object ${keyPropertyName} = testData.get("${keyPropertyName}");
+        //获取数据库中的某个ID
+        String responseString = MockTestUtil.getUrlMock(mvc, mockUrlPrefix+"/"+${keyPropertyName}.toString(), null);
+        logger.debug("responseString:"+responseString);
+
+        //获取不存在的数据ID
+        String deleteFailure = MockTestUtil.mockUrlWithMethod(mvc, mockUrlPrefix + "/-1" + ${keyPropertyName}.toString(),
+                HttpMethod.GET,null,null,null);
+        logger.debug("deleteFailure:" + deleteFailure);
+        RestResultResponse responsePage = JSONUtil.jsonToObj(deleteFailure, new
+                TypeReference<RestResultResponse>() {
+                });
+        Assert.assertNotEquals("200", responsePage.getResultCode());
+    }
+
+    /**
+     * 对 insert 进行测试
+     *
+     * @author ${author}
+     * @since ${date}
+     */
+    @Test
+    public void insert() {
+        ${domainName} ${camelDtoName} = new ${domainName}();
+
+        //TODO 请补充字段值
+        #foreach($field in ${table.fields})
+            #if(!${field.keyIdentityFlag})
+        //${camelDtoName}.set${field.capitalName}("xxx");
+            #end
+        #end
+
+        String responseString = MockTestUtil.postUrlMock(mvc, mockUrlPrefix,${camelDtoName});
+        logger.debug("responseString:"+responseString);
+    }
+
+    /***
+     * 对 update 进行单元测试
+     *
+     * @author ${author}
+     * @since ${date}
+     */
+    @Test
+    public void update() {
+        ${domainName} ${camelDtoName} = new ${domainName}();
+
+        //TODO 请补充字段值
+        #foreach($field in ${table.fields})
+            #if(!${field.keyIdentityFlag})
+        //${camelDtoName}.set${field.capitalName}("xxx");
+            #end
+        #end
+
+        List<Map<String,Object>> testDataList = getTestDataList();
+        Map<String,Object> testData = testDataList.get(0);
+        Object ${keyPropertyName} = testData.get("${keyPropertyName}");
+
+        String responseString = MockTestUtil.putUrlMock(mvc, mockUrlPrefix+"/" + ${keyPropertyName}.toString(),
+            ${camelDtoName});
+        logger.debug("responseString:"+responseString);
+    }
+
+    /**
+     * 测试deleteChangeDataContentById
+     *
+     * @author ${author}
+     * @since ${date}
+     */
+    @Test
+    public void deleteById() {
+        List<Map<String,Object>> testDataList = getTestDataList();
+        Map<String,Object> testData = testDataList.get(0);
+        Object ${keyPropertyName} = testData.get("${keyPropertyName}");
+
+        //删除数据库中的一个ID
+        String responseString = MockTestUtil.deleteUrlMock(mvc, mockUrlPrefix+"/" + ${keyPropertyName},null);
+        logger.debug("responseString:"+responseString);
+
+        //删除数据库中不存在的ID
+        String deleteFailure = MockTestUtil.mockUrlWithMethod(mvc, mockUrlPrefix+"/-1" + ${keyPropertyName},HttpMethod
+                .DELETE, null,null,null);
+        logger.debug("deleteFailure:" + deleteFailure);
+        RestResultResponse responsePage = JSONUtil.jsonToObj(deleteFailure, new
+                TypeReference<RestResultResponse>() {
+                });
+        Assert.assertNotEquals("200", responsePage.getResultCode());
+    }
+
+    /**
+     * 测试deleteChangeDataContentByIds
+     *
+     * @author ${author}
+     * @since ${date}
+     */
+    @Test
+    public void deleteByIds() {
+        List<Map<String,Object>> testDataList = getTestDataList();
+        List<String> ${keyPropertyName}List = new ArrayList<>();
+        for (Map<String, Object> testData : testDataList) {
+            ${keyPropertyName}List.add(testData.get("${keyPropertyName}").toString());
+        }
+
+        //删除数据库中的多条数据
+        String responseString = MockTestUtil.deleteUrlMock(mvc, mockUrlPrefix+"/batch/" + String.join(",", ${keyPropertyName}List),null);
+        logger.debug("responseString:"+responseString);
+
+
+        //删除数据库中不存在的ID
+        String deleteFailure = MockTestUtil.mockUrlWithMethod(mvc, mockUrlPrefix + "/batch/" + "/-1,-2" ,HttpMethod
+                .DELETE, null,null,null);
+        logger.debug("deleteFailure:" + deleteFailure);
+        RestResultResponse responsePage = JSONUtil.jsonToObj(deleteFailure, new
+                TypeReference<RestResultResponse>() {
+                });
+        Assert.assertNotEquals("200", responsePage.getResultCode());
+    }
+
+
+    /**
+     * 插入测试数据，如果测试数据不存在时
+     *
+     * @author ${author}
+     * @since ${date}
+     */
+    @Override
+    public void insertTestData() {
+        insert();
+    }
+
+    /**
+     * 获得测试数据
+     *
+     * @return java.util.List<java.util.Map<java.lang.String,java.lang.Object>>
+     * @author ${author}
+     * @since ${date}
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Map<String,Object>> getTestDataList(){
+        //执行查询
+        MultiValueMap<String, String> testDataMap = new LinkedMultiValueMap<>();
+        testDataMap.add("currentPage","1");
+        testDataMap.add("pageSize","2");
+        String responseString = MockTestUtil.getUrlMock(mvc, mockUrlPrefix+"/", testDataMap);
+        RestResultResponse<JsonPage<Map<String,Object>>> responsePage = JSONUtil.jsonToObj(responseString,new
+                TypeReference<RestResultResponse<JsonPage<Map<String,Object>>>>(){});
+        return responsePage.getData().getRecords();
+    }
+
+
+}

@@ -1,0 +1,104 @@
+package ${cfg.packageServiceImplTest};
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.yonyou.cyx.framework.test.BaseTest;
+import org.junit.Assert;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import ${cfg.packageDto}.${domainName};
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+#set($domainName=$!{entity})
+#set($end = $domainName.length() - 2)
+#set($controllerDomain=$domainName.substring(0,$end))
+#set($domainName=$domainName.substring(0,$end)+"DTO")
+
+
+#set ($camelDtoName = $!{domainName})
+#set ($camelDtoName = $camelDtoName.substring(0,1).toLowerCase() + $camelDtoName.substring(1,$camelDtoName.length()))
+
+#set ($controllerDomain = $controllerDomain.substring(0,1).toLowerCase() + $controllerDomain.substring(1,$controllerDomain.length()))
+
+#foreach($field in ${table.fields})
+    #if(${field.keyFlag})
+        #set($keyCapitalName=${field.capitalName})
+        #set($keyPropertyType=${field.propertyType})
+        #set($keyPropertyName=${field.propertyName})
+    #end
+#end
+
+/**
+ * <p>
+ * $!{table.comment} 服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+public class ${table.serviceImplName}Test extends BaseTest  {
+    //日志对象
+    private static final Logger logger = LoggerFactory.getLogger(${table.serviceImplName}Test.class);
+
+    @Autowired
+    public ${table.serviceName} ${controllerDomain}Service;
+
+
+    /**
+     * 根据查询条件返回结果集
+     *
+     * @return java.util.List<java.util.Map<java.lang.String,java.lang.Object>>
+     * @author ${author}
+     * @since 2018/7/22 0022
+     */
+    @Test
+    public void selectListBySql() {
+        List<Map<String,Object>> testdata = getTestDataList();
+
+        Map<String,Object> queryCondition = new HashMap<>();
+        queryCondition.put("${keyPropertyName}",Long.parseLong(testdata.get(0).get("${keyPropertyName}").toString()));
+        List<Map<String,Object>> selectList = ${controllerDomain}Service.selectListBySql(queryCondition);
+
+        Assert.assertEquals(1,selectList.size());
+    }
+
+    /**
+     * 插入数据
+     *
+     * @return void
+     * @throws
+     * @author zhangxianchao
+     * @since 2018/7/24 0024
+     */
+    @Override
+    public void insertTestData() {
+        ${domainName} ${camelDtoName} = new ${domainName}();
+
+        //TODO 请补充字段值
+        #foreach($field in ${table.fields})
+            #if(!${field.keyIdentityFlag})
+        //${camelDtoName}.set${field.capitalName}("xxx");
+            #end
+        #end
+        ${controllerDomain}Service.insert(${camelDtoName});
+    }
+
+    /**
+     * 获取测试数据
+     *
+     * @return java.util.List<java.lang.Object>
+     * @throws
+     * @author zhangxianchao
+     * @since 2018/7/24 0024
+     */
+    @Override
+    public List<Map<String,Object>> getTestDataList() {
+        Page page = new Page(1,2);
+        return ${controllerDomain}Service.selectPageBysql(page,new HashMap<>()).getRecords();
+    }
+
+}

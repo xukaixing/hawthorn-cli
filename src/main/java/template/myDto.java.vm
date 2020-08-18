@@ -1,0 +1,115 @@
+package ${cfg.packageDto};
+
+import com.yonyou.cyx.function.utils.bean.BeanMapperUtil;
+import com.yonyou.cyxdms.framework.bean.dto.base.DMSBaseDTO;
+import com.yonyou.cyx.framework.bean.entity.base.BasePO;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.yonyou.cyx.function.utils.jsonserializer.localdatetime.JsonLocalDateTimeDeserializer;
+import com.yonyou.cyx.function.utils.jsonserializer.localdatetime.JsonLocalDateTimeSerializer;
+
+
+/**
+ * <p>
+ * $!{table.comment}
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#set($domainName=$!{entity})
+#set($end = $domainName.length() - 2)
+#set($domainName=$domainName.substring(0,$end))
+
+public class ${domainName}DTO extends DMSBaseDTO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+#if("$!field.comment" != "")
+    /**
+     * ${field.comment}
+     */
+#end
+    #if(${field.propertyType.equals("LocalDateTime")})
+    @JsonDeserialize(using = JsonLocalDateTimeDeserializer.class)
+    @JsonSerialize(using = JsonLocalDateTimeSerializer.class)
+    private ${field.propertyType} ${field.propertyName};
+    #else
+    private ${field.propertyType} ${field.propertyName};
+    #end
+#end
+
+    public ${domainName}DTO() {
+        super();
+    }
+## ----------  END 字段循环遍历  ----------
+
+#foreach($field in ${table.fields})
+#if(${field.propertyType.equals("boolean")})
+#set($getprefix="is")
+#else
+#set($getprefix="get")
+#if(${field.keyFlag})
+    #set($keyPropertyName=${field.propertyName})
+#end
+#end
+
+
+
+    public ${field.propertyType} ${getprefix}${field.capitalName}() {
+        return ${field.propertyName};
+    }
+
+
+    public void set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
+        this.${field.propertyName} = ${field.propertyName};
+#if(${entityBuilderModel})
+        return this;
+#end
+    }
+#end
+
+
+
+    @Override
+    public String toString() {
+        return "${domainName}DTO{" +
+#foreach($field in ${table.fields})
+#if($!{velocityCount}==1)
+        "${field.propertyName}=" + ${field.propertyName} +
+#else
+        ", ${field.propertyName}=" + ${field.propertyName} +
+#end
+#end
+        "}";
+    }
+    /**
+     * 将DTO 转换为PO
+     * //对某个对象属性进行赋值
+     * //BeanMapperUtil.populateValueByMethod(transPO,"setXxx",this.getXxx);
+     * @param poClass dto 需要转换的dto
+     * @author ${author}
+     * @since 2018/7/22 0022
+     */
+    @Override
+    public <T extends BasePO> T transDtoToPo(Class<T> poClass) {
+        return super.transDtoToPo(poClass);
+    }
+
+    /**
+     * 将DTO 转换为PO
+     * BeanMapperUtil.populateValueByMethod(transPO,"setXxx",this.getXxx);
+     * @param po 需要转换的对象
+     * @author ${author}
+     * @since 2018/7/22 0022
+     */
+    public <T extends BasePO> void transDtoToPo(T po) {
+        BeanMapperUtil.copyProperties(this, po, "${keyPropertyName}");
+    }
+
+}
