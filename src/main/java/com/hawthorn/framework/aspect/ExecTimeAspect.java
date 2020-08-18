@@ -1,6 +1,6 @@
 package com.hawthorn.framework.aspect;
 
-import com.hawthorn.framework.util.http.HttpContextUtils;
+import com.hawthorn.framework.utils.http.HttpContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -78,7 +78,7 @@ public class ExecTimeAspect<T>
     // }
 
 
-    HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
+    HttpServletRequest request = HttpContextUtil.getHttpServletRequest();
     String url = "";
     String method = "";
     String remoteIp = "";

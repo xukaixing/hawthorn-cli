@@ -1,7 +1,7 @@
 package com.hawthorn.admin.repository.sysuser;
 
 import com.hawthorn.BootApplication;
-import com.hawthorn.admin.model.sysuser.SysUser;
+import com.hawthorn.admin.model.po.SysUserPO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,7 +28,7 @@ public class SysUserMapperTest
   public void testSelect()
   {
     System.out.println(("----- selectAll method test ------"));
-    List<SysUser> userList = sysUserMapper.selectList(null);
+    List<SysUserPO> userList = sysUserMapper.selectList(null);
     //Assert.assertEquals(5, userList.size());
     userList.forEach(System.out::println);
   }

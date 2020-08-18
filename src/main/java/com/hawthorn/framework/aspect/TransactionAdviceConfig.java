@@ -15,7 +15,7 @@ import org.springframework.transaction.interceptor.NameMatchTransactionAttribute
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
 /**
- * @Copyright: Copyright (c) 2020$ andyten
+ * @Copyright: Copyright (c) 2020 andyten
  * @remark: 通过AOP实现的全局事务控制，可不增加@Transactional注解
  * @author:andy.ten@tom.com
  * @date:2020/8/14 10:30 上午

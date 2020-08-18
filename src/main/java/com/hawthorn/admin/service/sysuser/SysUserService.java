@@ -1,6 +1,6 @@
 package com.hawthorn.admin.service.sysuser;
 
-import com.hawthorn.admin.model.sysuser.SysUser;
+import com.hawthorn.admin.model.dto.sysuser.SysUserDTO;
 
 import java.util.List;
 
@@ -13,15 +13,17 @@ import java.util.List;
  */
 public interface SysUserService
 {
-  List<SysUser> selectAll();
+  List<SysUserDTO> selectAll();
 
-  List<SysUser> selectAllPrivider();
+  List<SysUserDTO> selectAllPrivider();
 
-  List<SysUser> selectAllByStatus(Byte status);
+  List<SysUserDTO> selectAllByStatus(Byte status);
 
-  List<SysUser> selectAllByField(String fieldName, String fieldValue);
+  List<SysUserDTO> selectAllByField(String fieldName, String fieldValue);
 
   boolean insertUser();
 
   boolean insertUser2();
+
+  SysUserDTO updateUser();
 }

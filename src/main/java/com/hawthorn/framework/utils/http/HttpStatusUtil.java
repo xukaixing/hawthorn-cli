@@ -1,4 +1,4 @@
-package com.hawthorn.framework.util.http;
+package com.hawthorn.framework.utils.http;
 
 /**
  * Constants enumerating the HTTP status codes.
@@ -8,7 +8,7 @@ package com.hawthorn.framework.util.http;
  * @see StatusLine
  * @since 4.0
  */
-public interface HttpStatusUtils
+public interface HttpStatusUtil
 {
 
   // --- 1xx Informational ---

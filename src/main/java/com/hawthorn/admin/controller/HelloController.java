@@ -1,6 +1,6 @@
 package com.hawthorn.admin.controller;
 
-import com.hawthorn.admin.model.sysuser.SysUser;
+import com.hawthorn.admin.model.po.SysUserPO;
 import com.hawthorn.admin.service.Hello;
 import com.hawthorn.framework.annotation.ExecTime;
 import com.hawthorn.framework.ret.BaseResult;
@@ -45,9 +45,9 @@ public class HelloController
       @ApiImplicitParam(name = "username", value = "用户名", dataType = "string", paramType = "query", defaultValue = "andyten", required = false),
   })
   @GetMapping(value = "/findUser")
-  public BaseResult<SysUser> findUserByUserName(@RequestParam(value = "username", required = true) String username)
+  public BaseResult<SysUserPO> findUserByUserName(@RequestParam(value = "username", required = true) String username)
   {
-    SysUser su = new SysUser();
+    SysUserPO su = new SysUserPO();
     su.setId(1L);
     su.setName(username);
     return ResultUtil.success(su);

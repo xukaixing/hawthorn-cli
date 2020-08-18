@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 /**
- * @Copyright: Copyright (c) 2020$ andyten
+ * @Copyright: Copyright (c) 2020 andyten
  * @remark: TODO
  * @author:andy.ten@tom.com
  * @date:2020/8/14 1:42 上午

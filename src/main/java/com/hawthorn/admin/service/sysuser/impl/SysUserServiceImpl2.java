@@ -1,11 +1,12 @@
 package com.hawthorn.admin.service.sysuser.impl;
 
-import com.hawthorn.admin.model.sysuser.SysUser;
+import com.hawthorn.admin.model.dto.sysuser.SysUserDTO;
+import com.hawthorn.admin.model.po.SysUserPO;
 import com.hawthorn.admin.repository.sysuser.SysUserMapper;
 import com.hawthorn.admin.service.sysuser.SysUserService2;
 import com.hawthorn.framework.exception.BizCode;
 import com.hawthorn.framework.service.DBService;
-import com.hawthorn.framework.util.iassert.AssertUtil;
+import com.hawthorn.framework.utils.iassert.AssertUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,34 +28,34 @@ public class SysUserServiceImpl2 implements SysUserService2
   @Resource
   private SysUserMapper sysUserMapper;
   @Resource
-  private DBService<SysUser> dbService;
+  private DBService<SysUserPO> dbService;
 
-  public List<SysUser> selectAll()
+  public List<SysUserDTO> selectAll()
   {
     return sysUserMapper.selectAll();
   }
 
-  public List<SysUser> selectAllPrivider()
+  public List<SysUserDTO> selectAllPrivider()
   {
     return sysUserMapper.selectAllPrivider();
   }
 
-  public List<SysUser> selectAllByStatus(Byte status)
+  public List<SysUserDTO> selectAllByStatus(Byte status)
   {
-    AssertUtil.notNull(status, BizCode.METHOD_ARGS_ISNULL, "status");
+    AssertUtil.notNull(status, BizCode.METHOD_ARGS_NOTNULL, "status");
     return sysUserMapper.selectAllByStatus(status);
   }
 
-  public List<SysUser> selectAllByField(String fieldName, String fieldValue)
+  public List<SysUserDTO> selectAllByField(String fieldName, String fieldValue)
   {
-    AssertUtil.notNull(fieldName, BizCode.METHOD_ARGS_ISNULL, fieldName);
+    AssertUtil.notNull(fieldName, BizCode.METHOD_ARGS_NOTNULL, "fieldName");
     return sysUserMapper.selectAllByField(fieldName, fieldValue);
   }
 
   //@Transactional(rollbackFor = {Exception.class})
   public boolean insertUser()
   {
-    SysUser u = new SysUser();
+    SysUserPO u = new SysUserPO();
     u.setName("test");
     u.setNickName("test");
     //baseMapper.insert(u);
@@ -72,7 +73,7 @@ public class SysUserServiceImpl2 implements SysUserService2
   @Transactional(rollbackFor = {Exception.class})
   public boolean insertUser2()
   {
-    SysUser u = new SysUser();
+    SysUserPO u = new SysUserPO();
     u.setName("test");
     u.setNickName("test");
     //baseMapper.insert(u);

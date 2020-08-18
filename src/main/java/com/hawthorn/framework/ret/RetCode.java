@@ -1,11 +1,11 @@
 package com.hawthorn.framework.ret;
 
-import com.hawthorn.framework.util.http.HttpStatusUtils;
+import com.hawthorn.framework.utils.http.HttpStatusUtil;
 
 /**
  * @Copyright: Copyright (c) 2020 andyten
 
- * @remark: TODO
+ * @remark: 定义结果集code
  * @author:andy.ten@tom.com
  * @date:2020/8/11 5:27 下午
  * @version v1.0.1
@@ -13,22 +13,22 @@ import com.hawthorn.framework.util.http.HttpStatusUtils;
 public enum RetCode
 {
   // 成功
-  SUCCESS(HttpStatusUtils.SC_OK),
+  SUCCESS(HttpStatusUtil.SC_OK),
 
   // 失败
-  FAIL(HttpStatusUtils.SC_BAD_REQUEST),
+  FAIL(HttpStatusUtil.SC_BAD_REQUEST),
 
   // 未认证（签名错误）
-  UNAUTHORIZED(HttpStatusUtils.SC_UNAUTHORIZED),
+  UNAUTHORIZED(HttpStatusUtil.SC_UNAUTHORIZED),
 
   // 接口不存在
-  NOT_FOUND(HttpStatusUtils.SC_NOT_FOUND),
+  NOT_FOUND(HttpStatusUtil.SC_NOT_FOUND),
 
   // 客户端发送的实体主体部分比服务器能够或者希望处理的要大
-  Entity_TOOLARGE(HttpStatusUtils.SC_REQUEST_TOO_LONG),
+  Entity_TOOLARGE(HttpStatusUtil.SC_REQUEST_TOO_LONG),
 
   // 服务器内部错误
-  INTERNAL_SERVER_ERROR(HttpStatusUtils.SC_INTERNAL_SERVER_ERROR);
+  INTERNAL_SERVER_ERROR(HttpStatusUtil.SC_INTERNAL_SERVER_ERROR);
 
   public int code;
 

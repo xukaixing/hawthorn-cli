@@ -1,6 +1,7 @@
 package com.hawthorn.admin.repository.sysuser;
 
-import com.hawthorn.admin.model.sysuser.SysUser;
+import com.hawthorn.admin.model.dto.sysuser.SysUserDTO;
+import com.hawthorn.admin.model.po.SysUserPO;
 import com.hawthorn.admin.repository.sysuser.provider.SysUserSqlProvider;
 import com.hawthorn.framework.repository.DBMapper;
 import org.apache.ibatis.annotations.SelectProvider;
@@ -16,7 +17,7 @@ import java.util.List;
  * @version v1.0.1
  */
 @Repository
-public interface SysUserMapper extends DBMapper<SysUser>
+public interface SysUserMapper extends DBMapper<SysUserPO>
 {
   /**
    * @remark:查询全部的用户信息
@@ -31,10 +32,10 @@ public interface SysUserMapper extends DBMapper<SysUser>
    * -----------------------------------------------------------
    * 2020/8/13    andy.ten        v1.0.1             init
    */
-  List<SysUser> selectAll();
+  List<SysUserDTO> selectAll();
 
   @SelectProvider(SysUserSqlProvider.class)
-  List<SysUser> selectAllPrivider();
+  List<SysUserDTO> selectAllPrivider();
 
   /**
    * @remark:根据状态查询用户信息
@@ -49,7 +50,7 @@ public interface SysUserMapper extends DBMapper<SysUser>
    * -----------------------------------------------------------
    * 2020/8/13    andy.ten        v1.0.1             init
    */
-  List<SysUser> selectAllByStatus(Byte status);
+  List<SysUserDTO> selectAllByStatus(Byte status);
 
   /**
    * @remark: 根据字段查询结果集
@@ -65,7 +66,7 @@ public interface SysUserMapper extends DBMapper<SysUser>
    * -----------------------------------------------------------
    * 2020/8/13    andy.ten        v1.0.1             init
    */
-  List<SysUser> selectAllByField(String fieldName, String fieldValue);
+  List<SysUserDTO> selectAllByField(String fieldName, String fieldValue);
 
-
+  SysUserDTO update(SysUserPO u);
 }

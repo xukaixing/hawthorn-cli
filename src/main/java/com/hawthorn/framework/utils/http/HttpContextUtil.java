@@ -1,4 +1,4 @@
-package com.hawthorn.framework.util.http;
+package com.hawthorn.framework.utils.http;
 
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -14,7 +14,7 @@ import java.util.Objects;
  * @date:2020/8/11 5:27 下午
  * @version v1.0.1
  */
-public class HttpContextUtils
+public class HttpContextUtil
 {
   public static HttpServletRequest getHttpServletRequest()
   {

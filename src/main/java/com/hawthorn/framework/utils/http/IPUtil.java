@@ -1,4 +1,4 @@
-package com.hawthorn.framework.util.http;
+package com.hawthorn.framework.utils.http;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date:2020/8/11 5:27 下午
  * @version v1.0.1
  */
-public class IPUtils
+public class IPUtil
 {
   public static String getIpAddr(HttpServletRequest request)
   {

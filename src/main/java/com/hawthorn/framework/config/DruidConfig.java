@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 
 /**
- * @Copyright: Copyright (c) 2020$ andyten
+ * @Copyright: Copyright (c) 2020 andyten
  * @remark: DruidConfig配置类
  * @author:andy.ten@tom.com
  * @date:2020/8/14 2:01 上午

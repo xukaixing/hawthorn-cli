@@ -1,4 +1,4 @@
-package com.hawthorn.framework.util;
+package com.hawthorn.framework.utils;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -30,5 +30,5 @@ public class MyPropsConfig
   {
     this.exectime = exectime;
   }
-  
+
 }

@@ -67,7 +67,7 @@ spring:
             drop-table-allow: false
             #是否允许非以上基本语句的其他语句，缺省关闭，通过这个选项就能够屏蔽DDL
             none-base-statement-allow: false
-            #检查UPDATE语句是否无where条件，这是有风险的，但不是SQL注入类型的风险
+            #检查UPDATE语句是否带where条件，这是有风险的，但不是SQL注入类型的风险
             update-where-none-check: true
             #SELECT ... INTO OUTFILE 是否允许，这个是mysql注入攻击的常见手段，缺省是禁止的
             select-into-outfile-allow: false

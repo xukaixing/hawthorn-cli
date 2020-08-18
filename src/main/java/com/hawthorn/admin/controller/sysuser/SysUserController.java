@@ -1,6 +1,6 @@
 package com.hawthorn.admin.controller.sysuser;
 
-import com.hawthorn.admin.model.sysuser.SysUser;
+import com.hawthorn.admin.model.dto.sysuser.SysUserDTO;
 import com.hawthorn.admin.service.sysuser.SysUserService;
 import com.hawthorn.admin.service.sysuser.SysUserService2;
 import com.hawthorn.framework.ret.BaseResult;
@@ -22,7 +22,7 @@ import java.util.List;
  * @date:2020/8/13 2:48 下午
  * @version v1.0.1
  */
-@Api(tags = {"sysusermng-sysuser-controller"})
+@Api(tags = {"admin-sysuser-controller"})
 @RestController
 @RequestMapping("/sysuser/")
 @Slf4j
@@ -35,9 +35,9 @@ public class SysUserController
    */
   @ApiOperation(value = "查询->全部用户信息", notes = "查询全部用户信息服务 不带参数")
   @GetMapping(value = "/selectUsersAll")
-  public BaseResult<List<SysUser>> selectUsersAll()
+  public BaseResult<List<SysUserDTO>> selectUsersAll()
   {
-    List<SysUser> users = sysUserService.selectAll();
+    List<SysUserDTO> users = sysUserService.selectAll();
     log.info("====== show userlist ====== ");
     users.forEach(System.out::println);
     return ResultUtil.success(users);
@@ -59,9 +59,9 @@ public class SysUserController
 
   })
   @GetMapping(value = "/selectUsersAllPrivider")
-  public BaseResult<List<SysUser>> selectUsersAllPrivider()
+  public BaseResult<List<SysUserDTO>> selectUsersAllPrivider()
   {
-    List<SysUser> users = sysUserService.selectAllPrivider();
+    List<SysUserDTO> users = sysUserService.selectAllPrivider();
     return ResultUtil.success(users);
   }
 
@@ -75,9 +75,9 @@ public class SysUserController
       @ApiImplicitParam(name = "status", value = "状态", required = false, dataType = "byte", paramType = "query")
   })
   @GetMapping(value = "/selectUsersByStatus")
-  public BaseResult<List<SysUser>> selectUsersByStatus(@RequestParam(value = "status", required = false) Byte status)
+  public BaseResult<List<SysUserDTO>> selectUsersByStatus(@RequestParam(value = "status", required = false) Byte status)
   {
-    List<SysUser> users = sysUserService.selectAllByStatus(status);
+    List<SysUserDTO> users = sysUserService.selectAllByStatus(status);
     log.info("====== show userlist ====== ");
     users.forEach(x -> log.info(String.valueOf(x)));
     return ResultUtil.success(users);
@@ -94,9 +94,9 @@ public class SysUserController
       @ApiImplicitParam(name = "fieldValue", value = "属性值", required = false, dataType = "string", paramType = "query")
   })
   @GetMapping(value = "/selectUsersByField")
-  public BaseResult<List<SysUser>> selectUsersByField(@RequestParam(value = "fieldName") String fieldName, @RequestParam(value = "fieldValue") String fieldValue)
+  public BaseResult<List<SysUserDTO>> selectUsersByField(@RequestParam(value = "fieldName") String fieldName, @RequestParam(value = "fieldValue") String fieldValue)
   {
-    List<SysUser> users = sysUserService.selectAllByField(fieldName, fieldValue);
+    List<SysUserDTO> users = sysUserService.selectAllByField(fieldName, fieldValue);
     return ResultUtil.success(users);
   }
 
@@ -116,5 +116,23 @@ public class SysUserController
     //sysUserService.insertUser2();
     //sysUserService.insertUser();
     return true;
+  }
+
+  /**
+   * @author: andy.ten@tom.com
+   * @date: 2020/8/17 10:37 上午
+   * @version: 1.0.1
+   */
+  @ApiOperation(value = "保存->用户更新", notes = "用户更新服务")
+  @ApiImplicitParams({
+  })
+  @PostMapping(value = "/insertUser")
+  public BaseResult<SysUserDTO> updateUser()
+  {
+    SysUserDTO u = sysUserService.updateUser();
+    //sysUserService2.insertUser();
+    //sysUserService.insertUser2();
+    //sysUserService.insertUser();
+    return ResultUtil.success(u);
   }
 }

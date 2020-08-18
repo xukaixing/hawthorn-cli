@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * @Copyright: Copyright (c) 2020$ andyten
+ * @Copyright: Copyright (c) 2020 andyten
  * @remark: TODO
  * @author:andy.ten@tom.com
  * @date:2020/8/14 7:54 上午
@@ -18,5 +18,5 @@ import org.springframework.test.context.junit4.SpringRunner;
 @Slf4j
 public class TransactionTest
 {
-  
+
 }
