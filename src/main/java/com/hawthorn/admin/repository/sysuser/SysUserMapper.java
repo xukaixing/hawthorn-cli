@@ -1,5 +1,7 @@
 package com.hawthorn.admin.repository.sysuser;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hawthorn.admin.model.dto.sysuser.SysUserDTO;
 import com.hawthorn.admin.model.po.SysUserPO;
 import com.hawthorn.admin.repository.sysuser.provider.SysUserSqlProvider;
@@ -33,6 +35,8 @@ public interface SysUserMapper extends DBMapper<SysUserPO>
    * 2020/8/13    andy.ten        v1.0.1             init
    */
   List<SysUserDTO> selectAll();
+
+  IPage<SysUserDTO> selectUsersByPage(Page<?> page);
 
   @SelectProvider(SysUserSqlProvider.class)
   List<SysUserDTO> selectAllPrivider();

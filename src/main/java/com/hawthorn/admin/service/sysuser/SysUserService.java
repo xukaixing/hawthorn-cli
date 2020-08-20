@@ -1,5 +1,7 @@
 package com.hawthorn.admin.service.sysuser;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hawthorn.admin.model.dto.sysuser.SysUserDTO;
 
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.List;
 public interface SysUserService
 {
   List<SysUserDTO> selectAll();
+
+  IPage<SysUserDTO> selectUsersByPage(Page<SysUserDTO> page);
 
   List<SysUserDTO> selectAllPrivider();
 

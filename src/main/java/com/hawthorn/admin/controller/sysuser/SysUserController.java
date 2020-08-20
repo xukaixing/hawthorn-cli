@@ -1,10 +1,10 @@
 package com.hawthorn.admin.controller.sysuser;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hawthorn.admin.model.dto.sysuser.SysUserDTO;
 import com.hawthorn.admin.service.sysuser.SysUserService;
 import com.hawthorn.admin.service.sysuser.SysUserService2;
-import com.hawthorn.framework.ret.BaseResult;
-import com.hawthorn.framework.ret.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -35,12 +35,29 @@ public class SysUserController
    */
   @ApiOperation(value = "查询->全部用户信息", notes = "查询全部用户信息服务 不带参数")
   @GetMapping(value = "/selectUsersAll")
-  public BaseResult<List<SysUserDTO>> selectUsersAll()
+  public List<SysUserDTO> selectUsersAll()
   {
     List<SysUserDTO> users = sysUserService.selectAll();
     log.info("====== show userlist ====== ");
     users.forEach(System.out::println);
-    return ResultUtil.success(users);
+    return users;
+  }
+
+  /**
+   * @author: andy.ten@tom.com
+   * @date: 2020/8/19 2:36 下午
+   * @version: 1.0.1
+   */
+  @ApiOperation(value = "查询->全部用户信息(分页)", notes = "查询全部用户信息服务 带分页")
+  @ApiImplicitParams({
+
+  })
+  @GetMapping(value = "/selectUsersByPage")
+  public IPage<SysUserDTO> selectUsersByPage()
+  {
+    Page<SysUserDTO> page = new Page<>();
+    IPage<SysUserDTO> users = sysUserService.selectUsersByPage(page);
+    return users;
   }
 
   @Resource
@@ -59,10 +76,10 @@ public class SysUserController
 
   })
   @GetMapping(value = "/selectUsersAllPrivider")
-  public BaseResult<List<SysUserDTO>> selectUsersAllPrivider()
+  public List<SysUserDTO> selectUsersAllPrivider()
   {
     List<SysUserDTO> users = sysUserService.selectAllPrivider();
-    return ResultUtil.success(users);
+    return users;
   }
 
   /**
@@ -75,12 +92,12 @@ public class SysUserController
       @ApiImplicitParam(name = "status", value = "状态", required = false, dataType = "byte", paramType = "query")
   })
   @GetMapping(value = "/selectUsersByStatus")
-  public BaseResult<List<SysUserDTO>> selectUsersByStatus(@RequestParam(value = "status", required = false) Byte status)
+  public List<SysUserDTO> selectUsersByStatus(@RequestParam(value = "status", required = false) Byte status)
   {
     List<SysUserDTO> users = sysUserService.selectAllByStatus(status);
     log.info("====== show userlist ====== ");
     users.forEach(x -> log.info(String.valueOf(x)));
-    return ResultUtil.success(users);
+    return users;
   }
 
   /**
@@ -94,10 +111,10 @@ public class SysUserController
       @ApiImplicitParam(name = "fieldValue", value = "属性值", required = false, dataType = "string", paramType = "query")
   })
   @GetMapping(value = "/selectUsersByField")
-  public BaseResult<List<SysUserDTO>> selectUsersByField(@RequestParam(value = "fieldName") String fieldName, @RequestParam(value = "fieldValue") String fieldValue)
+  public List<SysUserDTO> selectUsersByField(@RequestParam(value = "fieldName") String fieldName, @RequestParam(value = "fieldValue") String fieldValue)
   {
     List<SysUserDTO> users = sysUserService.selectAllByField(fieldName, fieldValue);
-    return ResultUtil.success(users);
+    return users;
   }
 
   /**
@@ -127,12 +144,12 @@ public class SysUserController
   @ApiImplicitParams({
   })
   @PostMapping(value = "/insertUser")
-  public BaseResult<SysUserDTO> updateUser()
+  public SysUserDTO updateUser()
   {
     SysUserDTO u = sysUserService.updateUser();
     //sysUserService2.insertUser();
     //sysUserService.insertUser2();
     //sysUserService.insertUser();
-    return ResultUtil.success(u);
+    return u;
   }
 }

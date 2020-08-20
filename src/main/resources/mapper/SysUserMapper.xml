@@ -36,6 +36,13 @@
     <include refid="Base_Table_List"/>
   </select>
 
+  <select id="selectUsersByPage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from
+    <include refid="Base_Table_List"/>
+  </select>
+
   <select id="selectAllByField" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>

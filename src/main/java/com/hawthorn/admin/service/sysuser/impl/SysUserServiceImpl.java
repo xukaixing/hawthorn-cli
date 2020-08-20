@@ -1,5 +1,7 @@
 package com.hawthorn.admin.service.sysuser.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hawthorn.admin.model.dto.sysuser.SysUserDTO;
 import com.hawthorn.admin.model.po.SysUserPO;
 import com.hawthorn.admin.repository.sysuser.SysUserMapper;
@@ -37,6 +39,24 @@ public class SysUserServiceImpl implements SysUserService
   public List<SysUserDTO> selectAll()
   {
     return sysUserMapper.selectAll();
+  }
+
+  /**
+   * @remark: 带分页查询方法
+   * @param: page
+   * @return: com.baomidou.mybatisplus.core.metadata.IPage<com.hawthorn.admin.model.dto.sysuser.SysUserDTO>
+
+   * @author: andy.ten@tom.com
+   * @date: 2020/8/20 2:31 下午
+   * @version: 1.0.1
+   * Modification History:
+   * Date         Author          Version            Description
+   * -----------------------------------------------------------
+   * 2020/8/20    andy.ten        v1.0.1             init
+   */
+  public IPage<SysUserDTO> selectUsersByPage(Page<SysUserDTO> page)
+  {
+    return sysUserMapper.selectUsersByPage(page);
   }
 
   public List<SysUserDTO> selectAllPrivider()
