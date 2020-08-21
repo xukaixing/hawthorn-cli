@@ -2,6 +2,7 @@ package com.hawthorn.framework.model;
 
 import com.hawthorn.framework.utils.bean.Map2ObjectUtil;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Map;
  * @date:2020/8/17 6:05 下午
  * @version v1.0.1
  */
-public class BaseModel
+public class BaseModel implements Serializable
 {
 
   /**

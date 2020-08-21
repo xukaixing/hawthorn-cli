@@ -1,10 +1,14 @@
 package com.hawthorn.framework.model;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.Version;
 import com.hawthorn.framework.utils.bean.Map2ObjectUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @Copyright: Copyright (c) 2020 andyten
@@ -21,30 +25,44 @@ public class BasePO extends BaseModel
   /**
    * 创建人
    */
+  @TableField(value = "create_by", fill = FieldFill.INSERT)
   private String createBy;
   /**
    * 创建时间
    */
-  private Date createTime;
+  @TableField(value = "create_time", fill = FieldFill.INSERT)
+  private LocalDateTime createTime;
   /**
    * 最后一次更新人
    */
+  @TableField(value = "last_update_by", fill = FieldFill.INSERT_UPDATE)
   private String lastUpdateBy;
 
   /**
-   * 最后一次更新时间
+   * 最后一次更新时间 ，注意类型必须是：Timestamp，否则自动填充为null
    */
-  private Date lastUpdateTime;
+  @TableField(value = "last_update_time", fill = FieldFill.INSERT_UPDATE)
+  private LocalDateTime lastUpdateTime;
 
   /**
    * 是否逻辑删除标识
    */
-  private Byte delFlag;
+  @TableLogic(value = "0", delval = "-1")
+  @TableField(value = "del_flag", fill = FieldFill.INSERT)
+  private Integer delFlag;
 
   /**
    * 状态
    */
-  private Byte status;
+  @TableField(value = "status", fill = FieldFill.INSERT)
+  private Integer status;
+
+  /**
+   * 乐观锁
+   */
+  @Version
+  @TableField(value = "version", fill = FieldFill.INSERT)
+  private Integer version;
 
   /**
    * @remark: 将po<BasePO>转换为dto
