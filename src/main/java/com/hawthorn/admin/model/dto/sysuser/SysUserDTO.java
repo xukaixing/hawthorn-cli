@@ -4,6 +4,7 @@ import com.hawthorn.framework.model.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 
@@ -15,6 +16,7 @@ import lombok.ToString;
  * @date:2020/8/13 8:11 下午
  * @version v1.0.1
  */
+@EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "sys_user", description = "用户对象实体")
 @Data
 //@EqualsAndHashCode(callSuper = true)

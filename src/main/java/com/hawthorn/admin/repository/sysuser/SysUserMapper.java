@@ -6,6 +6,7 @@ import com.hawthorn.admin.model.dto.sysuser.SysUserDTO;
 import com.hawthorn.admin.model.po.SysUserPO;
 import com.hawthorn.admin.repository.sysuser.provider.SysUserSqlProvider;
 import com.hawthorn.framework.repository.DBMapper;
+import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.stereotype.Repository;
 
@@ -41,6 +42,9 @@ public interface SysUserMapper extends DBMapper<SysUserPO>
   @SelectProvider(SysUserSqlProvider.class)
   List<SysUserDTO> selectAllPrivider();
 
+  @DeleteProvider(SysUserSqlProvider.class)
+  boolean deleteAllPrivider();
+
   /**
    * @remark:根据状态查询用户信息
    * @param:
@@ -72,5 +76,5 @@ public interface SysUserMapper extends DBMapper<SysUserPO>
    */
   List<SysUserDTO> selectAllByField(String fieldName, String fieldValue);
 
-  SysUserDTO update(SysUserPO u);
+  SysUserDTO updateBySql(SysUserPO u);
 }

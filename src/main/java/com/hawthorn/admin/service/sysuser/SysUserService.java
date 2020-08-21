@@ -30,4 +30,8 @@ public interface SysUserService
   boolean insertUser2();
 
   SysUserDTO updateUser();
+
+  SysUserDTO updateUserByVersion();
+
+  boolean deleteAll();
 }

@@ -19,4 +19,10 @@ public class SysUserSqlProvider implements ProviderMethodResolver
     return " SELECT * FROM SYS_USER ";
 
   }
+
+  public static String deleteAllPrivider()
+  {
+    return " delete from  sys_user ";
+
+  }
 }

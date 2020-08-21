@@ -9,7 +9,7 @@ import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.BadSqlGrammarException;
-import org.springframework.jdbc.UncategorizedSQLException;
+import org.springframework.transaction.TransactionTimedOutException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -178,19 +178,34 @@ public class GlobalExceptionHandler<T>
   }
 
   /**
-   * 全局异常UncategorizedSQLException捕捉处理
+   * 全局异常IllegalArgumentException捕捉处理
    *
    * @param ex
    * @return
    */
-  @SuppressWarnings("unchecked")
   @ResponseBody
-  @ExceptionHandler(value = UncategorizedSQLException.class)
-  public BaseResult<T> errorHandler(UncategorizedSQLException ex)
+  @ExceptionHandler(value = IllegalArgumentException.class)
+
+  public BaseResult<T> errorHandler(IllegalArgumentException ex)
   {
-    log.error("SQL异常[" + BizCode.SQL_WALL_UNCATEGORIZED.getCode() + "] : " + ExceptionUtil.getRootCauseMessage(ex));
-    return (BaseResult<T>) ResultUtil.fail(BizCode.SQL_WALL_UNCATEGORIZED.getCode(), "数据操作异常:" + BizCode.SQL_WALL_UNCATEGORIZED.getMsg(), ExceptionUtil.getRootCauseMessage(ex));
+    log.error("非法参数异常[" + BizCode.METHOD_ILLEGAL_ARGS.getCode() + "] : " + ExceptionUtil.getRootCauseMessage(ex));
+    return (BaseResult<T>) ResultUtil.fail(BizCode.METHOD_ILLEGAL_ARGS.getCode(), "非法参数异常:" + BizCode.METHOD_ILLEGAL_ARGS.getMsg(), ExceptionUtil.getRootCauseMessage(ex));
   }
+
+  // /**
+  //  * 全局异常UncategorizedSQLException捕捉处理
+  //  *
+  //  * @param ex
+  //  * @return
+  //  */
+  // @SuppressWarnings("unchecked")
+  // @ResponseBody
+  // @ExceptionHandler(value = UncategorizedSQLException.class)
+  // public BaseResult<T> errorHandler(UncategorizedSQLException ex)
+  // {
+  //   log.error("SQL异常[" + BizCode.SQL_WALL_UNCATEGORIZED.getCode() + "] : " + ExceptionUtil.getRootCauseMessage(ex));
+  //   return (BaseResult<T>) ResultUtil.fail(BizCode.SQL_WALL_UNCATEGORIZED.getCode(), "数据操作异常:" + BizCode.SQL_WALL_UNCATEGORIZED.getMsg(), ExceptionUtil.getRootCauseMessage(ex));
+  // }
 
   /**
    * 全局异常MyBatisSystemException捕捉处理
@@ -203,15 +218,20 @@ public class GlobalExceptionHandler<T>
   @ExceptionHandler(value = MyBatisSystemException.class)
   public BaseResult<T> errorHandler(MyBatisSystemException ex)
   {
+    String eMsg = ex.getCause().toString();
     // TypeException
-    if (ex.getCause().toString().contains("TypeException"))
+    if (eMsg.contains("TypeException"))
     {
       log.error("SQL异常[" + BizCode.SQL_MAPPING_TYPE.getCode() + "] : " + ExceptionUtil.getRootCauseMessage(ex));
       return (BaseResult<T>) ResultUtil.fail(BizCode.SQL_MAPPING_TYPE.getCode(), "数据操作异常:" + BizCode.SQL_MAPPING_TYPE.getMsg(), ExceptionUtil.getRootCauseMessage(ex));
+    } else if (eMsg.contains("ReflectionException"))
+    {
+      log.error("SQL异常[" + BizCode.SQL_MAPPING_TYPE.getCode() + "] : " + eMsg);
+      return (BaseResult<T>) ResultUtil.fail(BizCode.SQL_MAPPING_TYPE.getCode(), "数据操作异常:" + BizCode.SQL_MAPPING_TYPE.getMsg(), ExceptionUtil.getMessage(ex));
     } else
     {
-      log.error("SQL异常[" + BizCode.SQL_WALL_UNCATEGORIZED.getCode() + "] : " + ExceptionUtil.getRootCauseMessage(ex));
-      return (BaseResult<T>) ResultUtil.fail(BizCode.SQL_WALL_UNCATEGORIZED.getCode(), "数据操作异常:" + BizCode.SQL_WALL_UNCATEGORIZED.getMsg(), ExceptionUtil.getRootCauseMessage(ex));
+      log.error("SQL异常[" + BizCode.SQL_EXEC_BAD.getCode() + "] : " + ExceptionUtil.getRootCauseMessage(ex));
+      return (BaseResult<T>) ResultUtil.fail(BizCode.SQL_EXEC_BAD.getCode(), "数据操作异常:" + BizCode.SQL_EXEC_BAD.getMsg(), ExceptionUtil.getRootCauseMessage(ex));
     }
 
   }
@@ -232,18 +252,18 @@ public class GlobalExceptionHandler<T>
   }
 
   /**
-   * 全局异常IllegalArgumentException捕捉处理
+   * 全局异常TransactionTimedOutException捕捉处理
    *
    * @param ex
    * @return
    */
+  @SuppressWarnings("unchecked")
   @ResponseBody
-  @ExceptionHandler(value = IllegalArgumentException.class)
-
-  public BaseResult<T> errorHandler(IllegalArgumentException ex)
+  @ExceptionHandler(value = TransactionTimedOutException.class)
+  public BaseResult<T> errorHandler(TransactionTimedOutException ex)
   {
-    log.error("非法参数异常[" + BizCode.METHOD_ILLEGAL_ARGS.getCode() + "] : " + ExceptionUtil.getRootCauseMessage(ex));
-    return (BaseResult<T>) ResultUtil.fail(BizCode.METHOD_ILLEGAL_ARGS.getCode(), "非法参数异常:" + BizCode.METHOD_ILLEGAL_ARGS.getMsg(), ExceptionUtil.getRootCauseMessage(ex));
+    log.error("SQL异常[" + BizCode.SQL_TRANSACTION_TIMEOUT.getCode() + "] : " + ExceptionUtil.getRootCauseMessage(ex));
+    return (BaseResult<T>) ResultUtil.fail(BizCode.SQL_TRANSACTION_TIMEOUT.getCode(), "数据操作异常:" + BizCode.SQL_TRANSACTION_TIMEOUT.getMsg(), ExceptionUtil.getRootCauseMessage(ex));
   }
 
   /**

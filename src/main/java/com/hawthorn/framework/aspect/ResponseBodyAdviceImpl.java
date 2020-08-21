@@ -1,5 +1,6 @@
 package com.hawthorn.framework.aspect;
 
+import com.alibaba.fastjson.JSONObject;
 import com.hawthorn.framework.config.ResponseAdviceConfig;
 import com.hawthorn.framework.ret.BaseResult;
 import com.hawthorn.framework.ret.ResultUtil;
@@ -32,11 +33,12 @@ public class ResponseBodyAdviceImpl implements ResponseBodyAdvice<Object>
   @Override
   public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass)
   {
+    // 定义哪些类需要拦截处理 return true 表示全部controller
     return true;
   }
 
   @Override
-  public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> aClass, ServerHttpRequest request, ServerHttpResponse response)
+  public Object beforeBodyWrite(Object o, MethodParameter returnType, MediaType mediaType, Class<? extends HttpMessageConverter<?>> aClass, ServerHttpRequest request, ServerHttpResponse response)
   {
     // 如果返回值是BaseResult类型，则直接返回
     if (o instanceof BaseResult)
@@ -46,9 +48,15 @@ public class ResponseBodyAdviceImpl implements ResponseBodyAdvice<Object>
     // 判断是否存在responseConfig 的实现类，如果存在实现类，则使用实现类进行判断
     if (responseAdviceConfig != null)
     {
-      return responseAdviceConfig.sucessResponse(request, response, o, methodParameter);
+      return responseAdviceConfig.sucessResponse(request, response, o, returnType);
     }
-
+    String returnTypeName = returnType.getParameterType().getName();
+    // 方法返回值是"void"
+    if ("void".equals(returnTypeName))
+    {
+      return ResultUtil.success(new JSONObject());
+    }
+    // 屏蔽swagger接口api + Actuator监控路径请求
     if (request.getURI().toString().contains("/swagger") || request.getURI().toString().contains("/v2/api-docs") || request.getURI().toString().contains("/actuator"))
     {
       return o;

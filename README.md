@@ -5,6 +5,17 @@
       xukaixing@hotmail.com
   
 ## 版本
+
+> v1.0.5 : 2020.08.21  
+>> 实现公共字段自动填充功能
+>> 实现物理分页demo  
+>> 实现结果集封装功能，controller直接对象    
+>> 增加逻辑删除处理  
+>> 增加全表删除、全表更新阻断  
+>> 增加表乐观锁version处理    
+
+---
+
 > v1.0.4 : 2020.08.18  
 >> 增加BasePO、BaseModel、BaseDTO封装类     
 >> 增加Str2Util、Map2ObjectUtil工具类，处理字符串工具类、map和object对象互相转换工具类      
@@ -21,14 +32,6 @@
 
 ---
 
-> v1.0.2 : 2020.08.08 
->> 日志增加exectime配置  
->> 调整目录结构，增加framework包  
->> 增加aop切面功能  
->> 增加aop的执行时间插件
-
----
-
 ## 环境
 
 - SpringBoot版本：2.3.1.RELEASE
@@ -42,11 +45,16 @@
   - `Lombok`：生成Setter、Getter插件
   - `HuTool`: java工具包
   - `configuration-processor`: 自定义属性配置插件
-  - `exectime`: 增加aop的执行时间插件
+  - `exectime`: 增加aop的执行时间插件（自定义）
   - `mybatis`: 增加mybatis依赖
   - `mybatis-plus`: 增加mybatis-plus依赖
   - `mybatis-plus generator`: 增加mybatis-plus generator插件
   - `fastjson`: 增加阿里json处理插件
+- 自定义工具
+  - `Str2Util`: 增加处理字符串工具类
+  - `Map2ObjectUtil`: 、mapper与obj互相转换工具类
+  - `AssertUtil`: 增加断言工具类
+  - `PropertiesUtil、YmlUtil`: 增加.property、.yml文件读取工具类
   
 ## 运行
 
@@ -59,6 +67,8 @@
 
 ``` 目录
 .
+├── db
+│   └── hawthorn.sql
 ├── pom.xml
 └── src
     ├── main
@@ -84,15 +94,6 @@
     │   │   │           ├── service
     │   │   │           └── utils
     │   │   └── template
-    │   │       ├── myController.java.vm
-    │   │       ├── myControllerTest.java.vm
-    │   │       ├── myDto.java.vm
-    │   │       ├── myEntity.java.vm
-    │   │       ├── myMapper.java.vm
-    │   │       ├── myMapper.xml.vm
-    │   │       ├── myService.java.vm
-    │   │       ├── myServiceImpl.java.vm
-    │   │       └── myServiceImplTest.java.vm
     │   └── resources
     │       ├── META-INF
     │       ├── application-dev.yml
@@ -105,7 +106,6 @@
     │       ├── logback-spring-prod.xml
     │       ├── mapper
     │       │   └── SysUserMapper.xml
-    │       └── rebel.xml
     └── test
         └── java
             └── com
@@ -117,7 +117,7 @@
                     └── framework
                         └── generator
 
-36 directories, 21 files
+37 directories, 22 files
 
 ```
 

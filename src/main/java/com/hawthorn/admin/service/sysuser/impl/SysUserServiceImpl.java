@@ -1,5 +1,6 @@
 package com.hawthorn.admin.service.sysuser.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hawthorn.admin.model.dto.sysuser.SysUserDTO;
@@ -52,10 +53,12 @@ public class SysUserServiceImpl implements SysUserService
    * Modification History:
    * Date         Author          Version            Description
    * -----------------------------------------------------------
-   * 2020/8/20    andy.ten        v1.0.1             init
+   * 2020/8/20    any.ten        v1.0.1             init
    */
   public IPage<SysUserDTO> selectUsersByPage(Page<SysUserDTO> page)
   {
+    // 逻辑分页：调用selectPage，适合小数据量
+    //return sysUserMapper.selectPage(new Page<>(1, 2), null);
     return sysUserMapper.selectUsersByPage(page);
   }
 
@@ -88,7 +91,7 @@ public class SysUserServiceImpl implements SysUserService
     //baseMapper.insert(u);
     sysUserMapper.insert(u.transDto2Po(SysUserPO.class));
     log.info("1");
-    sysUserService2.insertUser();
+    //sysUserService2.insertUser();
     // SysUser u2 = new SysUser();
     // u2.setName("test");
     // u2.setNickName("test");
@@ -118,7 +121,7 @@ public class SysUserServiceImpl implements SysUserService
     u.setName("test");
     u.setNickName("test");
     //baseMapper.insert(u);
-    dbService.saveOrUpdate(u);
+    dbService.save(u);
     // SysUser u2 = new SysUser();
     // u2.setName("test");
     // u2.setNickName("test");
@@ -131,10 +134,14 @@ public class SysUserServiceImpl implements SysUserService
   public SysUserDTO updateUser()
   {
     SysUserDTO u = new SysUserDTO();
-    u.setId(32L);
-    u.setEmail("huanggai@hotmail.com");
+    UpdateWrapper<SysUserPO> uw = new UpdateWrapper<>();
+    uw.eq("id", 32L);
+    uw.set("email", null);
+    uw.set("mobile", "1314443331");
+    dbService.update(uw);
+    //sysUserMapper.updateById(u.transDto2Po(SysUserPO.class));
     //baseMapper.insert(u);
-    dbService.saveOrUpdate(u.transDto2Po(SysUserPO.class));
+    //dbService.updateById(u.transDto2Po(SysUserPO.class));
     // SysUser u2 = new SysUser();
     // u2.setName("test");
     // u2.setNickName("test");
@@ -143,6 +150,52 @@ public class SysUserServiceImpl implements SysUserService
     //dbService.updateById(u);
     //sysUserMapper.update(u);
     return u;
+  }
+
+  /**
+   * @remark: 乐观锁实现方式
+   * @param:
+   * @return: com.hawthorn.admin.model.dto.sysuser.SysUserDTO
+
+   * @author: andy.ten@tom.com
+   * @date: 2020/8/21 3:14 下午
+   * @version: 1.0.1
+   * Modification History:
+   * Date         Author          Version            Description
+   * -----------------------------------------------------------
+   * 2020/8/21    andy.ten        v1.0.1             init
+   */
+  public SysUserDTO updateUserByVersion()
+  {
+    SysUserDTO u = new SysUserDTO();
+    u.setId(32L);
+    u.setMobile("13100000002");
+    UpdateWrapper<SysUserPO> uw = new UpdateWrapper<>();
+    uw.eq("id", 32L);
+    uw.set("email", null);
+    uw.set("mobile", u.getMobile());
+    SysUserPO p = sysUserMapper.selectById(32L);
+    // 乐观锁使用前提：1)必须要先把数据查询出来;selectById;
+    //              2)乐观锁仅支持updateById和update(entity,wrapper)方法；
+    // 利用wrapper解决更新为null问题，实际上，推荐使用warpper方式
+    p.setMobile("1111111111");
+    dbService.update(p, uw);
+    //sysUserMapper.updateById(u.transDto2Po(SysUserPO.class));
+    //baseMapper.insert(u);
+    //dbService.updateById(u.transDto2Po(SysUserPO.class));
+    // SysUser u2 = new SysUser();
+    // u2.setName("test");
+    // u2.setNickName("test");
+    // //baseMapper.insert(u);
+    // dbService.saveOrUpdate(u2);
+    //dbService.updateById(u);
+    //sysUserMapper.update(u);
+    return u;
+  }
+
+  public boolean deleteAll()
+  {
+    return sysUserMapper.deleteAllPrivider();
   }
 
 }

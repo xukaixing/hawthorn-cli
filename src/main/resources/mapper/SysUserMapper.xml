@@ -87,7 +87,7 @@
   </insert>
 
   <!-- update -->
-  <update id="update" parameterType="com.hawthorn.admin.model.po.SysUserPO">
+  <update id="updateBySql" parameterType="com.hawthorn.admin.model.po.SysUserPO">
     update sys_user u set
     u.name = #{name,jdbcType=VARCHAR},
     u.nick_name = #{nickName,jdbcType=VARCHAR},

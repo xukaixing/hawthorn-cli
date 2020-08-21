@@ -48,14 +48,17 @@ public class SysUserController
    * @date: 2020/8/19 2:36 下午
    * @version: 1.0.1
    */
-  @ApiOperation(value = "查询->全部用户信息(分页)", notes = "查询全部用户信息服务 带分页")
+  @ApiOperation(value = "查询->全部用户信息(物理分页)", notes = "查询全部用户信息服务 带分页")
   @ApiImplicitParams({
 
   })
   @GetMapping(value = "/selectUsersByPage")
   public IPage<SysUserDTO> selectUsersByPage()
   {
-    Page<SysUserDTO> page = new Page<>();
+    int pageNum = 1;
+    int pageSize = 2;
+    Page<SysUserDTO> page = new Page<>(pageNum, pageSize);
+
     IPage<SysUserDTO> users = sysUserService.selectUsersByPage(page);
     return users;
   }
@@ -143,13 +146,48 @@ public class SysUserController
   @ApiOperation(value = "保存->用户更新", notes = "用户更新服务")
   @ApiImplicitParams({
   })
-  @PostMapping(value = "/insertUser")
-  public SysUserDTO updateUser()
+  @PostMapping(value = "/updateUser")
+  public void updateUser()
   {
     SysUserDTO u = sysUserService.updateUser();
     //sysUserService2.insertUser();
     //sysUserService.insertUser2();
     //sysUserService.insertUser();
-    return u;
+  }
+
+  /**
+   * @author: andy.ten@tom.com
+   * @date: 2020/8/21 3:19 下午
+   * @version: 1.0.1
+   */
+  @ApiOperation(value = "保存->用户更新(带乐观锁)", notes = "用户更新服务")
+  @ApiImplicitParams({
+
+  })
+  @PostMapping(value = "/updateUserByVersion")
+  public void updateUserByVersion()
+  {
+    SysUserDTO u = sysUserService.updateUserByVersion();
+    //sysUserService2.insertUser();
+    //sysUserService.insertUser2();
+    //sysUserService.insertUser();
+  }
+
+  /**
+   * @author: andy.ten@tom.com
+   * @date: 2020/8/21 1:13 下午
+   * @version: 1.0.1
+   */
+  @ApiOperation(value = "保存->用户删除", notes = "用户删除服务")
+  @ApiImplicitParams({
+
+  })
+  @DeleteMapping(value = "/deleteAllUser")
+  public void deleteAll()
+  {
+    sysUserService.deleteAll();
+    //sysUserService2.insertUser();
+    //sysUserService.insertUser2();
+    //sysUserService.insertUser();
   }
 }

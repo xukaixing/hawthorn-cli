@@ -81,6 +81,9 @@ public enum BizCode
   SQL_WALL_UNCATEGORIZED(-60003, "执行语句未通过防火墙验证"),
   SQL_MAPPING_TYPE(-60004, "设置参数时类型映射错误"),
 
+  SQL_TRANSACTION_TIMEOUT(-61001, "事务执行超时"),
+
+  SQL_EXEC_BAD(-69998, "SQL执行错误"),
   SQL_GRAMMAR_BAD(-69999, "SQL语法错误");
 
   //
