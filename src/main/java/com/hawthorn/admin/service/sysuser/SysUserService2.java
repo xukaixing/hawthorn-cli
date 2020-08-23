@@ -13,7 +13,6 @@ import java.util.List;
  */
 public interface SysUserService2 //extends IBaseService<SysUser>
 {
-  List<SysUserDTO> selectAll();
 
   List<SysUserDTO> selectAllPrivider();
 

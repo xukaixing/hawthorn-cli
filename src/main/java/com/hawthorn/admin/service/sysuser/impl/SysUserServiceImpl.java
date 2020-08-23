@@ -5,12 +5,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hawthorn.admin.model.dto.sysuser.SysUserDTO;
 import com.hawthorn.admin.model.po.SysUserPO;
-import com.hawthorn.admin.repository.sysuser.SysUserMapper;
+import com.hawthorn.admin.repository.SysUserMapper;
 import com.hawthorn.admin.service.sysuser.SysUserService;
 import com.hawthorn.admin.service.sysuser.SysUserService2;
 import com.hawthorn.framework.annotation.ExecTime;
 import com.hawthorn.framework.exception.BizCode;
 import com.hawthorn.framework.service.DBService;
+import com.hawthorn.framework.utils.bean.QcBean;
 import com.hawthorn.framework.utils.iassert.AssertUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Copyright: Copyright (c) 2020 andyten
@@ -37,9 +39,9 @@ public class SysUserServiceImpl implements SysUserService
   @Resource
   private DBService<SysUserPO> dbService;
 
-  public List<SysUserDTO> selectAll()
+  public List<SysUserDTO> selectNoPage()
   {
-    return sysUserMapper.selectAll();
+    return sysUserMapper.selectNoPage();
   }
 
   /**
@@ -55,11 +57,25 @@ public class SysUserServiceImpl implements SysUserService
    * -----------------------------------------------------------
    * 2020/8/20    any.ten        v1.0.1             init
    */
-  public IPage<SysUserDTO> selectUsersByPage(Page<SysUserDTO> page)
+  public IPage<SysUserDTO> selectByPage(Page<SysUserDTO> page)
   {
     // 逻辑分页：调用selectPage，适合小数据量
     //return sysUserMapper.selectPage(new Page<>(1, 2), null);
-    return sysUserMapper.selectUsersByPage(page);
+    return sysUserMapper.selectByPage(page);
+  }
+
+  public List<SysUserDTO> select(Map<String, QcBean> qc)
+  {
+    // 逻辑分页：调用selectPage，适合小数据量
+    //return sysUserMapper.selectPage(new Page<>(1, 2), null);
+    return sysUserMapper.select(qc);
+  }
+
+  public IPage<SysUserDTO> select(Page<SysUserDTO> page, Map<String, QcBean> qc)
+  {
+    // 逻辑分页：调用selectPage，适合小数据量
+    //return sysUserMapper.selectPage(new Page<>(1, 2), null);
+    return sysUserMapper.select(page, qc);
   }
 
   public List<SysUserDTO> selectAllPrivider()
@@ -69,13 +85,13 @@ public class SysUserServiceImpl implements SysUserService
 
   public List<SysUserDTO> selectAllByStatus(Byte status)
   {
-    AssertUtil.notNull(status, BizCode.METHOD_ARGS_NOTNULL, "status");
+    AssertUtil.notNull(status, BizCode.METHOD_ARGS_NOTNULL, "status" );
     return sysUserMapper.selectAllByStatus(status);
   }
 
   public List<SysUserDTO> selectAllByField(String fieldName, String fieldValue)
   {
-    AssertUtil.notNull(fieldName, BizCode.METHOD_ARGS_NOTNULL, "fieldName");
+    AssertUtil.notNull(fieldName, BizCode.METHOD_ARGS_NOTNULL, "fieldName" );
     return sysUserMapper.selectAllByField(fieldName, fieldValue);
   }
 
@@ -86,11 +102,11 @@ public class SysUserServiceImpl implements SysUserService
   public boolean insertUser()
   {
     SysUserDTO u = new SysUserDTO();
-    u.setName("test");
-    u.setNickName("test");
+    u.setName("test" );
+    u.setNickName("test" );
     //baseMapper.insert(u);
     sysUserMapper.insert(u.transDto2Po(SysUserPO.class));
-    log.info("1");
+    log.info("1" );
     //sysUserService2.insertUser();
     // SysUser u2 = new SysUser();
     // u2.setName("test");
@@ -118,8 +134,8 @@ public class SysUserServiceImpl implements SysUserService
   public boolean insertUser2()
   {
     SysUserPO u = new SysUserPO();
-    u.setName("test");
-    u.setNickName("test");
+    u.setName("test" );
+    u.setNickName("test" );
     //baseMapper.insert(u);
     dbService.save(u);
     // SysUser u2 = new SysUser();
@@ -127,7 +143,7 @@ public class SysUserServiceImpl implements SysUserService
     // u2.setNickName("test");
     // u2.setStatus((byte) 0);
     // saveOrUpdate(u2);
-    log.info("2");
+    log.info("2" );
     return true;
   }
 
@@ -137,8 +153,8 @@ public class SysUserServiceImpl implements SysUserService
     UpdateWrapper<SysUserPO> uw = new UpdateWrapper<>();
     uw.eq("id", 32L);
     uw.set("email", null);
-    uw.set("mobile", "1314443331");
-    dbService.update(uw);
+    uw.set("mobile", "1314443331" );
+    boolean b = dbService.update(uw);
     //sysUserMapper.updateById(u.transDto2Po(SysUserPO.class));
     //baseMapper.insert(u);
     //dbService.updateById(u.transDto2Po(SysUserPO.class));
@@ -149,7 +165,10 @@ public class SysUserServiceImpl implements SysUserService
     // dbService.saveOrUpdate(u2);
     //dbService.updateById(u);
     //sysUserMapper.update(u);
-    return u;
+    if (b)
+      return u;
+    else
+      return null;
   }
 
   /**
@@ -169,7 +188,7 @@ public class SysUserServiceImpl implements SysUserService
   {
     SysUserDTO u = new SysUserDTO();
     u.setId(32L);
-    u.setMobile("13100000002");
+    u.setMobile("13100000002" );
     UpdateWrapper<SysUserPO> uw = new UpdateWrapper<>();
     uw.eq("id", 32L);
     uw.set("email", null);
@@ -178,7 +197,7 @@ public class SysUserServiceImpl implements SysUserService
     // 乐观锁使用前提：1)必须要先把数据查询出来;selectById;
     //              2)乐观锁仅支持updateById和update(entity,wrapper)方法；
     // 利用wrapper解决更新为null问题，实际上，推荐使用warpper方式
-    p.setMobile("1111111111");
+    p.setMobile("1111111111" );
     dbService.update(p, uw);
     //sysUserMapper.updateById(u.transDto2Po(SysUserPO.class));
     //baseMapper.insert(u);

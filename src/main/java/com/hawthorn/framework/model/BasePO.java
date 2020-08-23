@@ -30,6 +30,8 @@ public class BasePO extends BaseModel
   /**
    * 创建时间
    */
+  //@JsonDeserialize(using = JsonLocalDateTimeDeserializer.class)
+  //@JsonSerialize(using = JsonLocalDateTimeSerializer.class)
   @TableField(value = "create_time", fill = FieldFill.INSERT)
   private LocalDateTime createTime;
   /**
@@ -41,13 +43,15 @@ public class BasePO extends BaseModel
   /**
    * 最后一次更新时间 ，注意类型必须是：Timestamp，否则自动填充为null
    */
+  //@JsonDeserialize(using = JsonLocalDateTimeDeserializer.class)
+  //@JsonSerialize(using = JsonLocalDateTimeSerializer.class)
   @TableField(value = "last_update_time", fill = FieldFill.INSERT_UPDATE)
   private LocalDateTime lastUpdateTime;
 
   /**
    * 是否逻辑删除标识
    */
-  @TableLogic(value = "0", delval = "-1")
+  @TableLogic(value = "0", delval = "-1" )
   @TableField(value = "del_flag", fill = FieldFill.INSERT)
   private Integer delFlag;
 

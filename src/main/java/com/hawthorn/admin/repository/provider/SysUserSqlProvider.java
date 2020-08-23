@@ -1,4 +1,4 @@
-package com.hawthorn.admin.repository.sysuser.provider;
+package com.hawthorn.admin.repository.provider;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.builder.annotation.ProviderMethodResolver;

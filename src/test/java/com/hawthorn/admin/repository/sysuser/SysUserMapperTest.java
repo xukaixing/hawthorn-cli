@@ -2,6 +2,7 @@ package com.hawthorn.admin.repository.sysuser;
 
 import com.hawthorn.BootApplication;
 import com.hawthorn.admin.model.po.SysUserPO;
+import com.hawthorn.admin.repository.SysUserMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

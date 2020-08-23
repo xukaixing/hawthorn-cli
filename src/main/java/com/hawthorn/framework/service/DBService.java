@@ -102,7 +102,7 @@ public interface DBService<T>
    */
   default boolean removeByMap(Map<String, Object> columnMap)
   {
-    Assert.notEmpty(columnMap, "error: columnMap must not be empty");
+    Assert.notEmpty(columnMap, "error: columnMap must not be empty" );
     return SqlHelper.retBool(getBaseMapper().deleteByMap(columnMap));
   }
 

@@ -1,16 +1,18 @@
-package com.hawthorn.admin.repository.sysuser;
+package com.hawthorn.admin.repository;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hawthorn.admin.model.dto.sysuser.SysUserDTO;
 import com.hawthorn.admin.model.po.SysUserPO;
-import com.hawthorn.admin.repository.sysuser.provider.SysUserSqlProvider;
+import com.hawthorn.admin.repository.provider.SysUserSqlProvider;
 import com.hawthorn.framework.repository.DBMapper;
+import com.hawthorn.framework.utils.bean.QcBean;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Copyright: Copyright (c) 2020 andyten
@@ -22,22 +24,14 @@ import java.util.List;
 @Repository
 public interface SysUserMapper extends DBMapper<SysUserPO>
 {
-  /**
-   * @remark:查询全部的用户信息
-   * @param:
-   * @return: java.util.List<com.hawthorn.admin.model.sysuser.SysUser>
 
-   * @author: andy.ten@tom.com
-   * @date: 2020/8/13 3:47 下午
-   * @version: 1.0.1
-   * Modification History:
-   * Date         Author          Version            Description
-   * -----------------------------------------------------------
-   * 2020/8/13    andy.ten        v1.0.1             init
-   */
-  List<SysUserDTO> selectAll();
+  IPage<SysUserDTO> select(Page<?> page, Map<String, QcBean> qc);
 
-  IPage<SysUserDTO> selectUsersByPage(Page<?> page);
+  List<SysUserDTO> select(Map<String, QcBean> qc);
+
+  List<SysUserDTO> selectNoPage();
+
+  IPage<SysUserDTO> selectByPage(Page<?> page);
 
   @SelectProvider(SysUserSqlProvider.class)
   List<SysUserDTO> selectAllPrivider();

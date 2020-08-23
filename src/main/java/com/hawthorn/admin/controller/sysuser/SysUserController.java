@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hawthorn.admin.model.dto.sysuser.SysUserDTO;
 import com.hawthorn.admin.service.sysuser.SysUserService;
 import com.hawthorn.admin.service.sysuser.SysUserService2;
+import com.hawthorn.framework.utils.bean.QcBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -24,7 +26,7 @@ import java.util.List;
  */
 @Api(tags = {"admin-sysuser-controller"})
 @RestController
-@RequestMapping("/sysuser/")
+@RequestMapping("/sysuser/" )
 @Slf4j
 public class SysUserController
 {
@@ -33,12 +35,12 @@ public class SysUserController
    * @date: 2020/8/13 2:56 下午
    * @version: 1.0.1
    */
-  @ApiOperation(value = "查询->全部用户信息", notes = "查询全部用户信息服务 不带参数")
-  @GetMapping(value = "/selectUsersAll")
+  @ApiOperation(value = "查询->全部用户信息", notes = "查询全部用户信息服务 不带参数" )
+  @GetMapping(value = "/selectUsersAll" )
   public List<SysUserDTO> selectUsersAll()
   {
-    List<SysUserDTO> users = sysUserService.selectAll();
-    log.info("====== show userlist ====== ");
+    List<SysUserDTO> users = sysUserService.selectNoPage();
+    log.info("====== show userlist ====== " );
     users.forEach(System.out::println);
     return users;
   }
@@ -48,19 +50,50 @@ public class SysUserController
    * @date: 2020/8/19 2:36 下午
    * @version: 1.0.1
    */
-  @ApiOperation(value = "查询->全部用户信息(物理分页)", notes = "查询全部用户信息服务 带分页")
+  @ApiOperation(value = "查询->全部用户信息(物理分页)", notes = "查询全部用户信息服务 带分页" )
   @ApiImplicitParams({
 
   })
-  @GetMapping(value = "/selectUsersByPage")
+  @GetMapping(value = "/selectUsersByPage" )
   public IPage<SysUserDTO> selectUsersByPage()
   {
     int pageNum = 1;
     int pageSize = 2;
     Page<SysUserDTO> page = new Page<>(pageNum, pageSize);
 
-    IPage<SysUserDTO> users = sysUserService.selectUsersByPage(page);
+    IPage<SysUserDTO> users = sysUserService.selectByPage(page);
     return users;
+  }
+
+  /**
+   * @author: andy.ten@tom.com
+   * @date: 2020/8/19 2:36 下午
+   * @version: 1.0.1
+   */
+  @ApiOperation(value = "查询->全部用户信息(物理分页带where条件)", notes = "查询全部用户信息服务 带分页" )
+  @ApiImplicitParams({
+
+  })
+  @GetMapping(value = "/select" )
+  public IPage<SysUserDTO> select()
+  {
+    int pageNum = 1;
+    int pageSize = 2;
+    Page<SysUserDTO> page = new Page<>(pageNum, pageSize);
+    QcBean qc = new QcBean();
+    qc.setId("delFlag" );
+    qc.setOp("=" );
+    qc.setDs("del_flag" );
+    qc.setValue("0" );
+    QcBean qc2 = new QcBean();
+    qc2.setId("email" );
+    qc2.setOp("like" );
+    qc2.setDs("email" );
+    qc2.setValue("%test%" );
+    HashMap<String, QcBean> hm = new HashMap<>();
+    hm.put(qc.getId(), qc);
+    hm.put(qc2.getId(), qc2);
+    return sysUserService.select(page, hm);
   }
 
   @Resource
@@ -74,11 +107,11 @@ public class SysUserController
    * @date: 2020/8/13 9:21 下午
    * @version: 1.0.1
    */
-  @ApiOperation(value = "查询->全部用户信息(Privider方式)", notes = "查询全部用户信息服务 使用Privider方式 无须配置mapper xml")
+  @ApiOperation(value = "查询->全部用户信息(Privider方式)", notes = "查询全部用户信息服务 使用Privider方式 无须配置mapper xml" )
   @ApiImplicitParams({
 
   })
-  @GetMapping(value = "/selectUsersAllPrivider")
+  @GetMapping(value = "/selectUsersAllPrivider" )
   public List<SysUserDTO> selectUsersAllPrivider()
   {
     List<SysUserDTO> users = sysUserService.selectAllPrivider();
@@ -90,15 +123,15 @@ public class SysUserController
    * @date: 2020/8/13 6:25 下午
    * @version: 1.0.1
    */
-  @ApiOperation(value = "查询->按状态查询用户", notes = "按状态查询用户信息服务 带参数status")
+  @ApiOperation(value = "查询->按状态查询用户", notes = "按状态查询用户信息服务 带参数status" )
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "status", value = "状态", required = false, dataType = "byte", paramType = "query")
+      @ApiImplicitParam(name = "status", value = "状态", required = false, dataType = "byte", paramType = "query" )
   })
-  @GetMapping(value = "/selectUsersByStatus")
+  @GetMapping(value = "/selectUsersByStatus" )
   public List<SysUserDTO> selectUsersByStatus(@RequestParam(value = "status", required = false) Byte status)
   {
     List<SysUserDTO> users = sysUserService.selectAllByStatus(status);
-    log.info("====== show userlist ====== ");
+    log.info("====== show userlist ====== " );
     users.forEach(x -> log.info(String.valueOf(x)));
     return users;
   }
@@ -108,13 +141,13 @@ public class SysUserController
    * @date: 2020/8/13 6:31 下午
    * @version: 1.0.1
    */
-  @ApiOperation(value = "查询->按属性查询用户", notes = "按属性查询用户信息服务")
+  @ApiOperation(value = "查询->按属性查询用户", notes = "按属性查询用户信息服务" )
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "fieldName", value = "属性名", required = true, dataType = "string", paramType = "query"),
-      @ApiImplicitParam(name = "fieldValue", value = "属性值", required = false, dataType = "string", paramType = "query")
+      @ApiImplicitParam(name = "fieldName", value = "属性名", required = true, dataType = "string", paramType = "query" ),
+      @ApiImplicitParam(name = "fieldValue", value = "属性值", required = false, dataType = "string", paramType = "query" )
   })
-  @GetMapping(value = "/selectUsersByField")
-  public List<SysUserDTO> selectUsersByField(@RequestParam(value = "fieldName") String fieldName, @RequestParam(value = "fieldValue") String fieldValue)
+  @GetMapping(value = "/selectUsersByField" )
+  public List<SysUserDTO> selectUsersByField(@RequestParam(value = "fieldName" ) String fieldName, @RequestParam(value = "fieldValue" ) String fieldValue)
   {
     List<SysUserDTO> users = sysUserService.selectAllByField(fieldName, fieldValue);
     return users;
@@ -125,10 +158,10 @@ public class SysUserController
    * @date: 2020/8/14 12:03 上午
    * @version: 1.0.1
    */
-  @ApiOperation(value = "保存->用户新增", notes = "用户新增服务")
+  @ApiOperation(value = "保存->用户新增", notes = "用户新增服务" )
   @ApiImplicitParams({
   })
-  @PutMapping(value = "/insertUser")
+  @PutMapping(value = "/insertUser" )
   public boolean insertUser()
   {
     sysUserService.insertUser();
@@ -143,10 +176,10 @@ public class SysUserController
    * @date: 2020/8/17 10:37 上午
    * @version: 1.0.1
    */
-  @ApiOperation(value = "保存->用户更新", notes = "用户更新服务")
+  @ApiOperation(value = "保存->用户更新", notes = "用户更新服务" )
   @ApiImplicitParams({
   })
-  @PostMapping(value = "/updateUser")
+  @PostMapping(value = "/updateUser" )
   public void updateUser()
   {
     SysUserDTO u = sysUserService.updateUser();
@@ -160,11 +193,11 @@ public class SysUserController
    * @date: 2020/8/21 3:19 下午
    * @version: 1.0.1
    */
-  @ApiOperation(value = "保存->用户更新(带乐观锁)", notes = "用户更新服务")
+  @ApiOperation(value = "保存->用户更新(带乐观锁)", notes = "用户更新服务" )
   @ApiImplicitParams({
 
   })
-  @PostMapping(value = "/updateUserByVersion")
+  @PostMapping(value = "/updateUserByVersion" )
   public void updateUserByVersion()
   {
     SysUserDTO u = sysUserService.updateUserByVersion();
@@ -178,11 +211,11 @@ public class SysUserController
    * @date: 2020/8/21 1:13 下午
    * @version: 1.0.1
    */
-  @ApiOperation(value = "保存->用户删除", notes = "用户删除服务")
+  @ApiOperation(value = "保存->用户删除", notes = "用户删除服务" )
   @ApiImplicitParams({
 
   })
-  @DeleteMapping(value = "/deleteAllUser")
+  @DeleteMapping(value = "/deleteAllUser" )
   public void deleteAll()
   {
     sysUserService.deleteAll();
