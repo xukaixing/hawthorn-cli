@@ -36,7 +36,7 @@
     <mybatis.plus.version>3.3.2</mybatis.plus.version>
     <mybatis.plus.gen.version>3.3.2</mybatis.plus.gen.version>
     <mybatis.plus.gen.velocity.version>2.2</mybatis.plus.gen.velocity.version>
-    <alibaba.druid.version>1.1.21</alibaba.druid.version>
+    <alibaba.druid.version>1.1.22</alibaba.druid.version>
     <alibaba.fastjson.version>1.2.73</alibaba.fastjson.version>
 
     <apache.common.lang3.version>3.7</apache.common.lang3.version>
@@ -91,6 +91,12 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-aop</artifactId>
+    </dependency>
+
+    <!-- spring监控 -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
 
     <!-- swagger2 -->
