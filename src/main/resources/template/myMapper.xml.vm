@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${package.Mapper}.${table.mapperName}">
+  #set($po="po")
+  #set($dto="dto")
+  #set($entityPackage=$!{package.Entity})
+  #set($dtoPackage=$entityPackage.replace("model.po","model.dto"))
+  #set($poPackage=$entityPackage.replace("."+${cfg.moduleName},""))
+  #set($end= ${entity.length()} - 2)
+  #set($dtoName=$entity.substring(0,$end)+"DTO")
+  #if(${enableCache})
+  <!-- 是否开启二级缓存 -->
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+  #end
+  #if(${baseResultMap})
+  <!-- 通用查询映射结果到DTO(不带公共字段) -->
+  <resultMap id="BaseResultMap" type="${dtoPackage}.${dtoName}">
+    <!-- 主键 -->
+    #foreach($field in ${table.fields})
+      #if(${field.keyFlag})##生成主键排在第一位
+    <id column="${field.name}" property="${field.propertyName}"/>
+      #end
+    #end
+    <!-- 业务字段 -->
+    #foreach($field in ${table.fields})
+      #if(!${field.keyFlag})##生成普通字段
+    <result column="${field.name}" property="${field.propertyName}"/>
+      #end
+    #end
+  </resultMap>
+
+  <!-- 通用查询映射结果到PO(带公共字段) -->
+  <resultMap id="BaseResultMapAll" type="$poPackage.$entity">
+    <!-- 主键 -->
+    #foreach($field in ${table.fields})
+      #if(${field.keyFlag})##生成主键排在第一位
+    <id column="${field.name}" property="${field.propertyName}"/>
+      #end
+    #end
+    <!-- 公共字段 -->
+    #foreach($field in ${table.commonFields})##生成公共字段
+    <result column="${field.name}" property="${field.propertyName}"/>
+    #end
+    <!-- 业务字段 -->
+    #foreach($field in ${table.fields})
+      #if(!${field.keyFlag})##生成普通字段
+    <result column="${field.name}" property="${field.propertyName}"/>
+      #end
+    #end
+  </resultMap>
+  #end
+
+  #if(${baseColumnList})
+  <!-- 通用查询结果列(不带公共字段) -->
+  <sql id="Base_Column_List">
+    ${table.fieldNames}
+  </sql>
+  <!-- 通用查询结果列(带公共字段) -->
+  <sql id="Base_Column_ListAll">
+    ${table.fieldNames}
+    <!-- 公共字段 -->
+    #foreach($field in ${table.commonFields})
+      ,${field.name}
+    #end
+  </sql>
+  <!-- 表名 -->
+  <sql id="Base_Table_List">
+    ${table.name}
+  </sql>
+  <!-- 带过滤条件查询(支持分页+不分页) -->
+  <select id="select" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from
+    <include refid="Base_Table_List"/>
+    <where>
+      <if test="qc != null">
+        <foreach item="item" collection="qc" separator=" and ">
+          ${item.ds} ${item.op} #{item.value}
+        </foreach>
+      </if>
+    </where>
+  </select>
+  #end
+</mapper>

@@ -1,0 +1,132 @@
+package ${package.ServiceImpl};
+
+#set($poPackage=$entityPackage.replace("."+${cfg.moduleName},""))
+#set($dtoPackage=$entityPackage.replace("model.po","model.dto"))
+#set($domainName=$!{entity})
+#set($end= $domainName.length() - 2)
+#set($domainName=$domainName.substring(0,$end)+"DTO")
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import $dtoPackage.$domainName;
+import $poPackage.$!{entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import com.hawthorn.framework.service.DBService;
+import com.hawthorn.framework.utils.bean.QcBean;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+
+#set ($camelMapperName = $!{table.mapperName})
+#set ($camelMapperName = $camelMapperName.substring(0,1).toLowerCase() + $camelMapperName.substring(1,$camelMapperName.length()))
+#set ($camelPOName = $!{entity})
+#set ($camelPOName = $camelPOName.substring(0,1).toLowerCase() + $camelPOName.substring(1,$camelPOName.length()))
+#set ($camelDtoName = $!{domainName})
+#set ($camelDtoName = $camelDtoName.substring(0,1).toLowerCase() + $camelDtoName.substring(1,$camelDtoName.length()))
+#foreach($field in ${table.fields})
+    #if(${field.keyFlag})
+        #set($keyCapitalName=${field.capitalName})
+        #set($keyPropertyType=${field.propertyType})
+    #end
+#end
+/**
+ * @Copyright: Copyright (c) 2020 andyten
+ * <p></p>
+ * @remark: $!{table.comment} serviceImp 实现类
+ * @author: ${author}
+ * @date: ${date}
+ * @version v1.0.1
+ */
+@Service
+#if(${kotlin})
+open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName}
+{
+
+}
+#else
+public class ${table.serviceImplName} implements ${table.serviceName}
+{
+  @Resource
+  private ${table.mapperName} ${camelMapperName};
+  @Resource
+  private DBService<${entity}> dbService;
+
+  /**
+   * generator->带分页查询
+   */
+  @Transactional(readOnly = true)
+  public List<$domainName> select(Map<String, QcBean> qc)
+  {
+    return sysUserMapper.select(qc);
+  }
+
+  /**
+   * generator->不带分页查询
+   */
+  @Transactional(readOnly = true)
+  public IPage<$domainName> select(Page<$domainName> page, Map<String, QcBean> qc)
+  {
+    return sysUserMapper.select(page, qc);
+  }
+
+  /**
+   * generator->新增方法
+   */
+  @Transactional(rollbackFor = Exception.class)
+  public $domainName insert($domainName $camelDtoName)
+  {
+    ${entity} ${camelPOName} = ${camelDtoName}.transDto2Po(${entity}.class);
+    boolean b = dbService.save(${camelPOName});
+    if(b)
+      return ${camelDtoName};
+    else
+      return null;
+  }
+
+  /**
+   * generator->新增方法
+   */
+  @Transactional(rollbackFor = Exception.class)
+  public $domainName update($domainName $camelDtoName)
+  {
+    // 更新null值情况
+    //UpdateWrapper<${entity}> uw = new UpdateWrapper<>();
+    //uw.eq("id", ${camelDtoName}.getId());
+    //uw.set("xx", null);
+    //boolean b = dbService.update(uw);
+    ${entity} ${camelPOName} = ${camelDtoName}.transDto2Po(${entity}.class);
+    boolean b = dbService.updateById(${camelPOName});
+    if (b)
+      return ${camelDtoName};
+    else
+      return null;
+  }
+
+  /**
+   * generator->带乐观锁更新方法
+   */
+  @Transactional(rollbackFor = Exception.class)
+  public $domainName updateByVersion($domainName $camelDtoName)
+  {
+    ${entity} ${camelPOName} = ${camelMapperName}.selectById(${camelDtoName}.getId());
+    boolean b = dbService.updateById(${camelPOName});
+    if (b)
+      return ${camelDtoName};
+    else
+      return null;
+  }
+
+  /**
+   * generator->根据id删除行记录
+   */
+  @Transactional(rollbackFor = Exception.class)
+  public boolean deleteById(Long id)
+  {
+    return dbService.removeById(id);
+  }
+
+}
+#end

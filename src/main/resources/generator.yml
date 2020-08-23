@@ -1,26 +1,35 @@
 datasource:
   driverName: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://localhost:3306/mango?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useOldAliasMetadataBehavior=true&useSSL=false
+  url: jdbc:mysql://localhost:3306/hawthorn?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useOldAliasMetadataBehavior=true&useSSL=false
   username: root
   password: 123456
 
 table:
-  tableNames: sys_user #依赖的表名
   tablePrefix:  #生成的文件名称去除前缀
 
 output:
   path: /Users/xukaixing/Downloads #输出目录
   author: andy.ten@tom.com #注释作者
-  packageName: com.hawthron.admin
+  packageName: com.hawthorn.admin #主包路径
   defineChildPackage:
     controller: controller
-    mapper: repository
+    controllerTest: controller
     service: service
     serviceImpl: impl
+    mapper: repository
+    mapperXml: mapper
+    entity: model.po
     dto: model.dto
-    controllerTest: controller
-    mapperXml: mybatis.mapper
-    entity: model
-  moduleName: admin  #模块名称
+  isGeneratePackage:
+    controller: false
+    service: true
+    serviceImpl: true
+    entity: true
+    dto: true
+    mapper: true
+    mapperXml: true
+    controllerTest: false
+    serviceTest: false
+  moduleName: sysuser  #模块名称
 
 

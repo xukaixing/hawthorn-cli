@@ -1,0 +1,37 @@
+package ${package.Mapper};
+#set($entityPackage=$!{package.Entity})
+#set($poPackage=$entityPackage.replace("."+${cfg.moduleName},""))
+#set($dtoPackage=$entityPackage.replace("model.po","model.dto"))
+#set($end= $entity.length() - 2)
+#set($dtoName=$entity.substring(0,$end)+"DTO")
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.stereotype.Repository;
+import com.hawthorn.framework.utils.bean.QcBean;
+import $dtoPackage.$dtoName;
+import $poPackage.${entity};
+import ${superMapperClassPackage};
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @copyright: Copyright (c) 2020 andyten
+ * <p></p>
+ * @remark: $!{table.comment}($!{table.name}) Mapper 接口
+ * @author: ${author}
+ * @date: ${date}
+ * @version v1.0.1
+ */
+@Repository
+#if(${kotlin})
+interface ${table.mapperName} : ${superMapperClass}<${entity}>
+#else
+public interface ${table.mapperName} extends ${superMapperClass}<${entity}>
+{
+    IPage<$dtoName> select(Page<?> page, Map<String, QcBean> qc);
+
+    List<$dtoName> select(Map<String, QcBean> qc);
+}
+#end

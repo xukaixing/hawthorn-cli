@@ -1,0 +1,65 @@
+package ${package.Service};
+#set($poPackage=$entityPackage.replace("."+${cfg.moduleName},""))
+#set($dtoPackage=$entityPackage.replace("model.po","model.dto"))
+#set($domainName=$!{entity})
+#set($end= $domainName.length() - 2)
+#set($domainName=$domainName.substring(0,$end)+"DTO")
+#set ($camelDtoName = $domainName.substring(0,1).toLowerCase() + $domainName.substring(1,$domainName.length()))
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import $dtoPackage.$domainName;
+import com.hawthorn.framework.utils.bean.QcBean;
+
+import java.util.List;
+import java.util.Map;
+#foreach($field in ${table.fields})
+    #if(${field.keyFlag})
+        #set($keyPropertyType=${field.propertyType})
+    #end
+#end
+
+/**
+ * @Copyright: Copyright (c) 2020 andyten
+ * <p></p>
+ * @remark: $!{table.comment} service 接口
+ * @author: ${author}
+ * @date: ${date}
+ * @version v1.0.1
+ */
+#if(${kotlin})
+interface ${table.serviceName} : ${superServiceClass}<${entity}>
+#else
+public interface ${table.serviceName}
+{
+    /**
+     * generator->带分页查询
+     */
+    IPage<$domainName> select(Page<$domainName> page, Map<String, QcBean> qc);
+
+    /**
+     * generator->不带分页查询
+     */
+    List<$domainName> select(Map<String, QcBean> qc);
+
+    /**
+     * generator->新增方法
+     */
+    $domainName insert($domainName $camelDtoName);
+
+    /**
+     * generator->更新方法
+     */
+    $domainName update($domainName $camelDtoName);
+
+    /**
+     * generator->带乐观锁更新方法
+     */
+    $domainName updateByVersion($domainName $camelDtoName);
+
+    /**
+     * generator->根据id删除行记录
+     */
+    boolean deleteById(Long id);
+}
+#end

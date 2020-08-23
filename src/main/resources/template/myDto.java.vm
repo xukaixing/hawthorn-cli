@@ -1,0 +1,124 @@
+#set($entityPackage=$!{package.Entity})
+#set($poPackage=$entityPackage.replace("."+${cfg.moduleName},""))
+#set($dtoPackage=$entityPackage.replace("model.po","model.dto"))
+#set($end= $entity.length() - 2)
+#set($dtoName=$entity.substring(0,$end)+"DTO")
+package $dtoPackage;
+
+import com.hawthorn.framework.model.BaseDTO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.hawthorn.framework.utils.json.serializer.JsonLocalDateTimeDeserializer;
+import com.hawthorn.framework.utils.json.serializer.JsonLocalDateTimeSerializer;
+import lombok.experimental.Accessors;
+
+
+/**
+ * @copyright: Copyright (c) 2020 andyten
+ * <p></p>
+ * @remark: $!{table.comment}($!{table.name}) dto实体类
+ * @author: ${author}
+ * @date: ${date}
+ * @version v1.0.1
+ */
+#if(${entityLombokModel})
+@Data
+#if(${superEntityClass})
+@EqualsAndHashCode(callSuper = true)
+#else
+@EqualsAndHashCode(callSuper = false)
+#end
+@Accessors(chain = true)
+#end
+#set($domainName=$!{entity})
+#set($end = $domainName.length() - 2)
+#set($domainName=$domainName.substring(0,$end))
+@ApiModel(value = "$!{table.name}", description = "$!{table.comment}" )
+public class ${domainName}DTO extends BaseDTO
+{
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+#if("$!field.comment" != "")
+  /**
+   * ${field.comment}
+   */
+#end
+  @ApiModelProperty(value = "${field.comment}", name = "${field.propertyName}" )
+    #if(${field.propertyType.equals("LocalDateTime")})
+  @JsonDeserialize(using = JsonLocalDateTimeDeserializer.class)
+  @JsonSerialize(using = JsonLocalDateTimeSerializer.class)
+  private ${field.propertyType} ${field.propertyName};
+    #else
+  private ${field.propertyType} ${field.propertyName};
+    #end
+#end
+
+  public ${domainName}DTO()
+  {
+  }
+## ----------  END 字段循环遍历  ----------
+#if(!${entityLombokModel})
+#foreach($field in ${table.fields})
+    #if(${field.propertyType.equals("boolean")})
+        #set($getprefix="is")
+    #else
+        #set($getprefix="get")
+    #end
+
+  public ${field.propertyType} ${getprefix}${field.capitalName}()
+  {
+    return ${field.propertyName};
+  }
+
+    #if(${entityBuilderModel})
+  public ${entity} set${field.capitalName}(${field.propertyType} ${field.propertyName})
+  {
+    #else
+  public void set${field.capitalName}(${field.propertyType} ${field.propertyName})
+  {
+    #end
+      this.${field.propertyName} = ${field.propertyName};
+    #if(${entityBuilderModel})
+      return this;
+    #end
+  }
+#end
+#end
+#if(${entityColumnConstant})
+    #foreach($field in ${table.fields})
+  public static final String ${field.name.toUpperCase()} = "${field.name}";
+    #end
+#end
+#if(${activeRecord})
+    @Override
+  protected Serializable pkVal()
+  {
+    #if(${keyPropertyName})
+    return this.${keyPropertyName};
+    #else
+    return null;
+    #end
+  }
+#end
+#if(!${entityLombokModel})
+  @Override
+  public String toString()
+  {
+    return "${entity}(" +
+        #foreach($field in ${table.fields})
+            #if($!{velocityCount}==1)
+      "${field.propertyName}=" + ${field.propertyName} +
+            #else
+      ", ${field.propertyName}=" + ${field.propertyName} +
+            #end
+        #end
+    ")";
+  }
+#end
+}
