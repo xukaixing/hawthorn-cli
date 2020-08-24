@@ -10,11 +10,6 @@ package ${package.Controller};
 import ${cfg.packageDto}.${domainName};
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.yonyou.cyx.framework.bean.dto.framework.RestResultResponse;
-import com.yonyou.cyx.framework.dao.base.JsonPage;
-import com.yonyou.cyx.framework.test.BaseTest;
-import com.yonyou.cyx.framework.util.test.MockTestUtil;
-import com.yonyou.cyx.function.utils.jsonserializer.JSONUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;

@@ -90,7 +90,8 @@ public class MPCodeGenerator
     // 加载yml生成配置文件
     Properties properties = YmlUtil.yaml2Properties(RESOURCE_FILE);
     // 输出的模块名
-    String moduleName = properties.getProperty(OUTPUT_MODULE_NAME);
+    //String moduleName = properties.getProperty(OUTPUT_MODULE_NAME);
+    String moduleName = scanner("模块名" );
     // 将模块.改为路径：/
     String moduleNameDir = moduleName.replaceAll("\\.", "/" );
     // 输出目录的一级包名，例如：com.**.admin
@@ -156,13 +157,13 @@ public class MPCodeGenerator
         this.getConfig().getGlobalConfig().getEntityName();
         Map<String, Object> map = new HashMap<>();
         map.put("packageDto", packageName + (mpg.getPackageInfo().getModuleName()
-            == null ? "" : "." + mpg.getPackageInfo().getModuleName()) + "."
+            == null ? "" : mpg.getPackageInfo().getModuleName().equals("" ) ? "" : "." + mpg.getPackageInfo().getModuleName()) + "."
             + dtoPackageStatic + "." +
             moduleName);
         map.put("moduleName", moduleNameDir);
 
         map.put("packageServiceImplTest", packageName + (mpg.getPackageInfo().getModuleName()
-            == null ? "" : "." + mpg.getPackageInfo().getModuleName()) + "."
+            == null ? "" : mpg.getPackageInfo().getModuleName().equals("" ) ? "" : "." + mpg.getPackageInfo().getModuleName()) + "."
             + servicePackage + "." +
             moduleName);
 

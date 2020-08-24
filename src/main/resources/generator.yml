@@ -21,7 +21,7 @@ output:
     entity: model.po
     dto: model.dto
   isGeneratePackage:
-    controller: false
+    controller: true
     service: true
     serviceImpl: true
     entity: true
