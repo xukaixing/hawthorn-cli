@@ -60,6 +60,6 @@ public interface ${table.serviceName}
     /**
      * generator->根据id删除行记录
      */
-    boolean deleteById(Long id);
+    int deleteById(Long id);
 }
 #end

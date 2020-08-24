@@ -30,6 +30,6 @@ output:
     mapperXml: true
     controllerTest: false
     serviceTest: false
-  moduleName: sysuser  #模块名称
+  #moduleName: sysuser  #模块名称
 
 

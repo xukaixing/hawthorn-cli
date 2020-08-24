@@ -86,15 +86,14 @@ public class ${table.controllerName}
   @ApiImplicitParams({
   })
   @GetMapping(value = "/select" )
-  public IPage<SysUserDTO> select()
+  public IPage<$domainName> select()
   {
     int pageNum = 1;
     int pageSize = 2;
-    Page<SysUserDTO> page = new Page<>(pageNum, pageSize);
+    Page<$domainName> page = new Page<>(pageNum, pageSize);
     QcBean qc = new QcBean();
     HashMap<String, QcBean> hm = new HashMap<>();
-    IPage<SysUserDTO> users = ${controllerDomain}Service.select(page,hm);
-    return users;
+    return ${controllerDomain}Service.select(page,hm);
   }
 
   /**
@@ -106,11 +105,10 @@ public class ${table.controllerName}
   @ApiImplicitParams({
   })
   @GetMapping(value = "/selectNoPage" )
-  public List<SysUserDTO> selectNoPage()
+  public List<$domainName> selectNoPage()
   {
     QcBean qc = new QcBean();
     HashMap<String, QcBean> hm = new HashMap<>();
-    List<SysUserDTO> users = ${controllerDomain}Service.select(hm);
-    return users;
+    return ${controllerDomain}Service.select(hm);
   }
 }

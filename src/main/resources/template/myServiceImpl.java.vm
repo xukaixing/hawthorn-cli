@@ -51,8 +51,6 @@ public class ${table.serviceImplName} implements ${table.serviceName}
 {
   @Resource
   private ${table.mapperName} ${camelMapperName};
-  @Resource
-  private DBService<${entity}> dbService;
 
   /**
    * generator->带分页查询
@@ -60,7 +58,7 @@ public class ${table.serviceImplName} implements ${table.serviceName}
   @Transactional(readOnly = true)
   public List<$domainName> select(Map<String, QcBean> qc)
   {
-    return sysUserMapper.select(qc);
+    return ${camelMapperName}.select(qc);
   }
 
   /**
@@ -69,7 +67,7 @@ public class ${table.serviceImplName} implements ${table.serviceName}
   @Transactional(readOnly = true)
   public IPage<$domainName> select(Page<$domainName> page, Map<String, QcBean> qc)
   {
-    return sysUserMapper.select(page, qc);
+    return ${camelMapperName}.select(page, qc);
   }
 
   /**
@@ -79,11 +77,9 @@ public class ${table.serviceImplName} implements ${table.serviceName}
   public $domainName insert($domainName $camelDtoName)
   {
     ${entity} ${camelPOName} = ${camelDtoName}.transDto2Po(${entity}.class);
-    boolean b = dbService.save(${camelPOName});
-    if(b)
-      return ${camelDtoName};
-    else
-      return null;
+    int b = ${camelMapperName}.insert(${camelPOName});
+
+    return ${camelDtoName};
   }
 
   /**
@@ -98,11 +94,9 @@ public class ${table.serviceImplName} implements ${table.serviceName}
     //uw.set("xx", null);
     //boolean b = dbService.update(uw);
     ${entity} ${camelPOName} = ${camelDtoName}.transDto2Po(${entity}.class);
-    boolean b = dbService.updateById(${camelPOName});
-    if (b)
-      return ${camelDtoName};
-    else
-      return null;
+    int b = ${camelMapperName}.updateById(${camelPOName});
+
+    return ${camelDtoName};
   }
 
   /**
@@ -112,20 +106,18 @@ public class ${table.serviceImplName} implements ${table.serviceName}
   public $domainName updateByVersion($domainName $camelDtoName)
   {
     ${entity} ${camelPOName} = ${camelMapperName}.selectById(${camelDtoName}.getId());
-    boolean b = dbService.updateById(${camelPOName});
-    if (b)
-      return ${camelDtoName};
-    else
-      return null;
+    int b = ${camelMapperName}.updateById(${camelPOName});
+
+    return ${camelDtoName};
   }
 
   /**
    * generator->根据id删除行记录
    */
   @Transactional(rollbackFor = Exception.class)
-  public boolean deleteById(Long id)
+  public int deleteById(Long id)
   {
-    return dbService.removeById(id);
+    return ${camelMapperName}.deleteById(id);
   }
 
 }

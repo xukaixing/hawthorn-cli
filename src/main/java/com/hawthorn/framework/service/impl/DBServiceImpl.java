@@ -19,11 +19,10 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.MyBatisExceptionTranslator;
 import org.mybatis.spring.SqlSessionHolder;
 import org.mybatis.spring.SqlSessionUtils;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
@@ -39,13 +38,12 @@ import java.util.function.Function;
  * @date:2020/8/13 8:10下午
  * @version v1.0.1
  */
-@Service
-@SuppressWarnings("unchecked")
+@SuppressWarnings("unchecked" )
 public class DBServiceImpl<M extends BaseMapper<T>, T> implements DBService<T>
 {
   protected Log log = LogFactory.getLog(getClass());
 
-  @Resource
+  @Autowired
   protected M baseMapper;
 
   @Override
@@ -137,9 +135,9 @@ public class DBServiceImpl<M extends BaseMapper<T>, T> implements DBService<T>
     {
       Class<?> cls = entity.getClass();
       TableInfo tableInfo = TableInfoHelper.getTableInfo(cls);
-      Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!");
+      Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!" );
       String keyProperty = tableInfo.getKeyProperty();
-      Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!");
+      Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!" );
       Object idVal = ReflectionKit.getFieldValue(entity, tableInfo.getKeyProperty());
       return StringUtils.checkValNull(idVal) || Objects.isNull(getById((Serializable) idVal)) ? save(entity) : updateById(entity);
     }
@@ -151,9 +149,9 @@ public class DBServiceImpl<M extends BaseMapper<T>, T> implements DBService<T>
   public boolean saveOrUpdateBatch(Collection<T> entityList, int batchSize)
   {
     TableInfo tableInfo = TableInfoHelper.getTableInfo(entityClass);
-    Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!");
+    Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!" );
     String keyProperty = tableInfo.getKeyProperty();
-    Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!");
+    Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!" );
     return executeBatch(entityList, batchSize, (sqlSession, entity) ->
     {
       Object idVal = ReflectionKit.getFieldValue(entity, keyProperty);
@@ -227,7 +225,7 @@ public class DBServiceImpl<M extends BaseMapper<T>, T> implements DBService<T>
     SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
     if (!transaction)
     {
-      log.warn("SqlSession [" + sqlSession + "] was not registered for synchronization because DataSource is not transactional");
+      log.warn("SqlSession [" + sqlSession + "] was not registered for synchronization because DataSource is not transactional" );
     }
     try
     {
@@ -264,7 +262,7 @@ public class DBServiceImpl<M extends BaseMapper<T>, T> implements DBService<T>
    */
   protected <E> boolean executeBatch(Collection<E> list, int batchSize, BiConsumer<SqlSession, E> consumer)
   {
-    Assert.isFalse(batchSize < 1, "batchSize must not be less than one");
+    Assert.isFalse(batchSize < 1, "batchSize must not be less than one" );
     return !CollectionUtils.isEmpty(list) && executeBatch(sqlSession ->
     {
       int size = list.size();

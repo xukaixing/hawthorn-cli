@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class BasePO extends BaseModel
+public abstract class BasePO extends BaseModel
 {
   /**
    * 创建人

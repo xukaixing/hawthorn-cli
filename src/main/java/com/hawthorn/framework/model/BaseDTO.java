@@ -13,7 +13,7 @@ import java.util.Map;
  * @date:2020/8/17 5:36 下午
  * @version v1.0.1
  */
-public class BaseDTO implements Serializable
+public abstract class BaseDTO implements Serializable
 {
   private static final long serialVersionUID = 1L;
 

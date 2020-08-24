@@ -23,7 +23,7 @@ public class MetaObjectHandlerImpl implements MetaObjectHandler
   public void insertFill(MetaObject metaObject)
   {
     //createtime
-    boolean bol_createTime = metaObject.hasSetter("createTime");
+    boolean bol_createTime = metaObject.hasSetter("createTime" );
     //拿到createdTime的值
     Object createdTime = getFieldValByName("createTime", metaObject);
     if (bol_createTime) //有set方法
@@ -35,19 +35,19 @@ public class MetaObjectHandlerImpl implements MetaObjectHandler
       }
     }
     //createby
-    boolean bol_createBy = metaObject.hasSetter("createBy");
+    boolean bol_createBy = metaObject.hasSetter("createBy" );
     //拿到createdBy的值
     Object createdBy = getFieldValByName("createBy", metaObject);
     if (bol_createBy) //有set方法
     {
       if (createdBy == null) //值为null填充
       {
-        this.strictInsertFill(metaObject, "createBy", String.class, "andyten");
+        this.strictInsertFill(metaObject, "createBy", String.class, "andyten" );
       }
     }
 
     //status
-    boolean bol_status = metaObject.hasSetter("status");
+    boolean bol_status = metaObject.hasSetter("status" );
     //拿到createdTime的值
     Object status = getFieldValByName("status", metaObject);
     if (bol_status) //有set方法
@@ -59,7 +59,7 @@ public class MetaObjectHandlerImpl implements MetaObjectHandler
     }
 
     //delFlag
-    boolean bol_delFlag = metaObject.hasSetter("delFlag");
+    boolean bol_delFlag = metaObject.hasSetter("delFlag" );
     //拿到createdTime的值
     Object delFlag = getFieldValByName("delFlag", metaObject);
     if (bol_delFlag) //有set方法
@@ -71,7 +71,7 @@ public class MetaObjectHandlerImpl implements MetaObjectHandler
     }
 
     //version
-    boolean bol_version = metaObject.hasSetter("version");
+    boolean bol_version = metaObject.hasSetter("version" );
     //拿到createdTime的值
     Object version = getFieldValByName("version", metaObject);
     if (bol_version) //有set方法
@@ -83,7 +83,7 @@ public class MetaObjectHandlerImpl implements MetaObjectHandler
     }
 
     //lastUpdateBy
-    boolean bol_updateBy = metaObject.hasSetter("lastUpdateBy");
+    boolean bol_updateBy = metaObject.hasSetter("lastUpdateBy" );
     //拿到updateTime的值
     Object updateBy = getFieldValByName("lastUpdateBy", metaObject);
     if (bol_updateBy) //有set方法
@@ -91,12 +91,12 @@ public class MetaObjectHandlerImpl implements MetaObjectHandler
       if (updateBy == null) //值为null填充
       {
         //log.info("时间：{}", LocalDateTime.now().toString());
-        this.strictUpdateFill(metaObject, "lastUpdateBy", String.class, "andyten");
+        this.strictUpdateFill(metaObject, "lastUpdateBy", String.class, "andyten" );
       }
     }
 
     //lastUpdateTime
-    boolean bol_updateTime = metaObject.hasSetter("lastUpdateTime");
+    boolean bol_updateTime = metaObject.hasSetter("lastUpdateTime" );
     //拿到updateTime的值
     Object updateTime = getFieldValByName("lastUpdateTime", metaObject);
     if (bol_updateTime) //有set方法
@@ -113,20 +113,20 @@ public class MetaObjectHandlerImpl implements MetaObjectHandler
   public void updateFill(MetaObject metaObject)
   {
     //是否存在set方法
-    boolean bol_updateBy = metaObject.hasSetter("lastUpdateBy");
+    boolean bol_updateBy = metaObject.hasSetter("lastUpdateBy" );
     //拿到updateTime的值
     Object updateBy = getFieldValByName("lastUpdateBy", metaObject);
     if (bol_updateBy) //有set方法
     {
-      if (updateBy == null) //值为null填充
+      if (updateBy == null) //当实体中值为null填充，如果实体中自动set了，则不填充
       {
         //log.info("时间：{}", LocalDateTime.now().toString());
-        this.strictUpdateFill(metaObject, "lastUpdateBy", String.class, "andyten");
+        this.strictUpdateFill(metaObject, "lastUpdateBy", String.class, "andyten" );
       }
     }
 
     //是否存在set方法
-    boolean bol_updateTime = metaObject.hasSetter("lastUpdateTime");
+    boolean bol_updateTime = metaObject.hasSetter("lastUpdateTime" );
     //拿到updateTime的值
     Object updateTime = getFieldValByName("lastUpdateTime", metaObject);
     if (bol_updateTime) //有set方法

@@ -92,6 +92,7 @@ public class MPCodeGenerator
     // 输出的模块名
     //String moduleName = properties.getProperty(OUTPUT_MODULE_NAME);
     String moduleName = scanner("模块名" );
+    properties.setProperty(OUTPUT_MODULE_NAME, moduleName);
     // 将模块.改为路径：/
     String moduleNameDir = moduleName.replaceAll("\\.", "/" );
     // 输出目录的一级包名，例如：com.**.admin

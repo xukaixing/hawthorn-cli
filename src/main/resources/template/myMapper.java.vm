@@ -30,8 +30,8 @@ interface ${table.mapperName} : ${superMapperClass}<${entity}>
 #else
 public interface ${table.mapperName} extends ${superMapperClass}<${entity}>
 {
-    IPage<$dtoName> select(Page<?> page, Map<String, QcBean> qc);
+  IPage<$dtoName> select(Page<$dtoName> page, Map<String, QcBean> qc);
 
-    List<$dtoName> select(Map<String, QcBean> qc);
+  List<$dtoName> select(Map<String, QcBean> qc);
 }
 #end

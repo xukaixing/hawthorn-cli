@@ -7,14 +7,11 @@ import com.hawthorn.admin.model.dto.sysuser.SysUserDTO;
 import com.hawthorn.admin.model.po.SysUserPO;
 import com.hawthorn.admin.repository.SysUserMapper;
 import com.hawthorn.admin.service.sysuser.SysUserService;
-import com.hawthorn.admin.service.sysuser.SysUserService2;
 import com.hawthorn.framework.annotation.ExecTime;
 import com.hawthorn.framework.exception.BizCode;
-import com.hawthorn.framework.service.DBService;
 import com.hawthorn.framework.utils.bean.QcBean;
 import com.hawthorn.framework.utils.iassert.AssertUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -36,8 +33,6 @@ public class SysUserServiceImpl implements SysUserService
 
   @Resource
   private SysUserMapper sysUserMapper;
-  @Resource
-  private DBService<SysUserPO> dbService;
 
   public List<SysUserDTO> selectNoPage()
   {
@@ -95,11 +90,9 @@ public class SysUserServiceImpl implements SysUserService
     return sysUserMapper.selectAllByField(fieldName, fieldValue);
   }
 
-  @Autowired
-  private SysUserService2 sysUserService2;
 
   //@Transactional(rollbackFor = {Exception.class})
-  public boolean insertUser()
+  public SysUserDTO insertUser()
   {
     SysUserDTO u = new SysUserDTO();
     u.setName("test" );
@@ -114,7 +107,7 @@ public class SysUserServiceImpl implements SysUserService
     // u2.setStatus((byte) 0);
     // saveOrUpdate(u2);
     //insertUser2();
-    return true;
+    return u;
   }
 
   /**
@@ -131,20 +124,20 @@ public class SysUserServiceImpl implements SysUserService
    * 2020/8/14    andy.ten        v1.0.1             init
    */
   //@Transactional(rollbackFor = {Exception.class})
-  public boolean insertUser2()
+  public SysUserDTO insertUser2()
   {
     SysUserPO u = new SysUserPO();
     u.setName("test" );
     u.setNickName("test" );
     //baseMapper.insert(u);
-    dbService.save(u);
+    sysUserMapper.insert(u);
     // SysUser u2 = new SysUser();
     // u2.setName("test");
     // u2.setNickName("test");
     // u2.setStatus((byte) 0);
     // saveOrUpdate(u2);
     log.info("2" );
-    return true;
+    return u.transPo2Dto(SysUserDTO.class);
   }
 
   public SysUserDTO updateUser()
@@ -154,7 +147,7 @@ public class SysUserServiceImpl implements SysUserService
     uw.eq("id", 32L);
     uw.set("email", null);
     uw.set("mobile", "1314443331" );
-    boolean b = dbService.update(uw);
+    int b = sysUserMapper.update(u.transDto2Po(SysUserPO.class), uw);
     //sysUserMapper.updateById(u.transDto2Po(SysUserPO.class));
     //baseMapper.insert(u);
     //dbService.updateById(u.transDto2Po(SysUserPO.class));
@@ -165,10 +158,7 @@ public class SysUserServiceImpl implements SysUserService
     // dbService.saveOrUpdate(u2);
     //dbService.updateById(u);
     //sysUserMapper.update(u);
-    if (b)
-      return u;
-    else
-      return null;
+    return u;
   }
 
   /**
@@ -198,7 +188,7 @@ public class SysUserServiceImpl implements SysUserService
     //              2)乐观锁仅支持updateById和update(entity,wrapper)方法；
     // 利用wrapper解决更新为null问题，实际上，推荐使用warpper方式
     p.setMobile("1111111111" );
-    dbService.update(p, uw);
+    sysUserMapper.update(p, uw);
     //sysUserMapper.updateById(u.transDto2Po(SysUserPO.class));
     //baseMapper.insert(u);
     //dbService.updateById(u.transDto2Po(SysUserPO.class));
@@ -212,7 +202,7 @@ public class SysUserServiceImpl implements SysUserService
     return u;
   }
 
-  public boolean deleteAll()
+  public int deleteAll()
   {
     return sysUserMapper.deleteAllPrivider();
   }
