@@ -85,10 +85,10 @@ public class SysUserController
     qc.setDs("del_flag" );
     qc.setValue("0" );
     QcBean qc2 = new QcBean();
-    qc2.setId("email" );
-    qc2.setOp("like" );
-    qc2.setDs("email" );
-    qc2.setValue("%test%" );
+    qc2.setId("nickName" );
+    qc2.setOp("=" );
+    qc2.setDs("nick_name" );
+    qc2.setValue("%tet%" );
     HashMap<String, QcBean> hm = new HashMap<>();
     hm.put(qc.getId(), qc);
     hm.put(qc2.getId(), qc2);
@@ -97,7 +97,7 @@ public class SysUserController
 
   @Autowired
   SysUserService sysUserService;
-  
+
 
   /**
    * @author: andy.ten@tom.com

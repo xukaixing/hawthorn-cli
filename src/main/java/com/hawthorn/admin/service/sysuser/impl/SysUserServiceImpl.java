@@ -13,6 +13,7 @@ import com.hawthorn.framework.utils.bean.QcBean;
 import com.hawthorn.framework.utils.iassert.AssertUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -63,6 +64,7 @@ public class SysUserServiceImpl implements SysUserService
   {
     // 逻辑分页：调用selectPage，适合小数据量
     //return sysUserMapper.selectPage(new Page<>(1, 2), null);
+
     return sysUserMapper.select(qc);
   }
 
@@ -123,7 +125,7 @@ public class SysUserServiceImpl implements SysUserService
    * -----------------------------------------------------------
    * 2020/8/14    andy.ten        v1.0.1             init
    */
-  //@Transactional(rollbackFor = {Exception.class})
+  @Transactional(rollbackFor = {Exception.class})
   public SysUserDTO insertUser2()
   {
     SysUserPO u = new SysUserPO();
