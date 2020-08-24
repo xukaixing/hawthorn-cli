@@ -37,7 +37,7 @@ public interface SysUserMapper extends DBMapper<SysUserPO>
   List<SysUserDTO> selectAllPrivider();
 
   @DeleteProvider(SysUserSqlProvider.class)
-  boolean deleteAllPrivider();
+  int deleteAllPrivider();
 
   /**
    * @remark:根据状态查询用户信息

@@ -32,13 +32,13 @@ public interface SysUserService
 
   List<SysUserDTO> selectAllByField(String fieldName, String fieldValue);
 
-  boolean insertUser();
+  SysUserDTO insertUser();
 
-  boolean insertUser2();
+  SysUserDTO insertUser2();
 
   SysUserDTO updateUser();
 
   SysUserDTO updateUserByVersion();
 
-  boolean deleteAll();
+  int deleteAll();
 }

@@ -1,15 +1,12 @@
 package com.hawthorn.admin.repository.sysuser;
 
 import com.hawthorn.BootApplication;
-import com.hawthorn.admin.model.po.SysUserPO;
 import com.hawthorn.admin.repository.SysUserMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @Copyright: Copyright (c) 2020 andyten
@@ -22,15 +19,15 @@ import java.util.List;
 @SpringBootTest(classes = {BootApplication.class})
 public class SysUserMapperTest
 {
-  @Resource
+  @Autowired
   private SysUserMapper sysUserMapper;
 
   @Test
   public void testSelect()
   {
-    System.out.println(("----- selectAll method test ------"));
-    List<SysUserPO> userList = sysUserMapper.selectList(null);
+    System.out.println(("----- selectAll method test ------" ));
+    //List<SysUserPO> userList = sysUserMapper.selectList(null);
     //Assert.assertEquals(5, userList.size());
-    userList.forEach(System.out::println);
+    //userList.forEach(System.out::println);
   }
 }

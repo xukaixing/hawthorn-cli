@@ -4,16 +4,15 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hawthorn.admin.model.dto.sysuser.SysUserDTO;
 import com.hawthorn.admin.service.sysuser.SysUserService;
-import com.hawthorn.admin.service.sysuser.SysUserService2;
 import com.hawthorn.framework.utils.bean.QcBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 
@@ -96,11 +95,9 @@ public class SysUserController
     return sysUserService.select(page, hm);
   }
 
-  @Resource
+  @Autowired
   SysUserService sysUserService;
-
-  @Resource
-  SysUserService2 sysUserService2;
+  
 
   /**
    * @author: andy.ten@tom.com
