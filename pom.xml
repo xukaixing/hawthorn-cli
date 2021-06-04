@@ -40,7 +40,7 @@
     <alibaba.fastjson.version>1.2.73</alibaba.fastjson.version>
 
     <apache.common.lang3.version>3.7</apache.common.lang3.version>
-    <apache.httpclient.version>4.5.9</apache.httpclient.version>
+    <apache.httpclient.version>4.5.13</apache.httpclient.version>
     <common.collection.version>3.2.2</common.collection.version>
     <common.beanutils.version>1.9.4</common.beanutils.version>
 
